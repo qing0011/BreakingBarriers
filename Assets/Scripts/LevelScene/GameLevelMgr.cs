@@ -2,33 +2,29 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
-
-/// <summary>
-/// �ؿ����̹����������̵��ݣ�
-/// ����
-/// 1. ���������������
-/// 2. ���� SceneData �����ؿ�
-/// 3. ��������ʱ���÷֡�ͨ�ء�ʧ��
-
 public class GameLevelMgr : MonoBehaviour
 {
-    // ȫ��Ψһʵ��
+    // 单例实例
     public static GameLevelMgr Instance;
-    // ��ǰ�ؿ� ID���߼��㣩
+
+    // 当前关卡ID
     private int currentLevelId;
-    // ��ǰ�ؿ�ʣ��ʱ�䣨�룩
+
+    // 剩余时间
     private int remainTime;
-    // ��ǰ�ؿ��Ƿ���������
+
+    // 游戏是否正在运行
     public bool isRunning;
-    // ����ʱЭ�����ã�����ֹͣ
+
+    // 计时协程引用
     private Coroutine timeCoroutine;
-    // ��ǰ�÷֣�ֻ����
+
+    // 当前得分（属性，外部可读不可写）
     public int CurrentScore { get; private set; }
-    #region ��������
-    // ���� + �糡������
+
     private void Awake()
     {
+        // 单例模式实现
         if (Instance != null)
         {
             Destroy(gameObject);
@@ -36,202 +32,178 @@ public class GameLevelMgr : MonoBehaviour
         }
 
         Instance = this;
+        // 使对象在场景切换时不被销毁
         DontDestroyOnLoad(gameObject);
     }
 
-    #endregion
-
-    // ע�᳡����������¼�
     private void OnEnable()
     {
+        // 注册场景加载完成事件
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
-    // ��ע�ᣬ��ֹ�ظ��ص�
+
     private void OnDisable()
     {
+        // 取消注册场景加载事件
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
-    #region �ؿ���ʼ
 
-    /// <summary>
-    /// �����ؿ����ڳ���������ɺ���ã� ֻ���� OnSceneLoaded ����
-    /// </summary>
+    // 开始指定关卡
     public void StartLevel(int levelId)
     {
-        Debug.Log("[GameLevelMgr] StartLevel 被调用，传入的levelId: " + levelId);
-        Debug.Log("[GameLevelMgr] 当前GameDataMgr.currentSceneId: " + GameDataMgr.Instance.currentSceneId);
-
-        // �� GameDataMgr ���ùؿ�����
+        // 从游戏数据管理器中查找对应ID的关卡数据
         SceneData data = GameDataMgr.Instance.sceneDataList
             .Find(s => s.id == levelId);
 
         if (data == null)
         {
-            Debug.LogError($"[GameLevelMgr] δ�ҵ��ؿ����� id={levelId}");
+            // 未找到关卡数据，直接返回
             return;
         }
 
-        Debug.Log("[GameLevelMgr] 找到关卡数据: id=" + data.id + ", sceneName=" + data.sceneName);
-        // ���õ�ǰ�ؿ����ݣ�ȫ��Ψһ��
+        // 设置当前关卡数据到管理器
         GameDataMgr.Instance.currentSceneData = data;
-        GameDataMgr.Instance.currentSceneId = data.id;///////////////////////////////////
+        GameDataMgr.Instance.currentSceneId = data.id;
         // 设置当前关卡ID
         currentLevelId = data.id;
-        Debug.Log("[GameLevelMgr] 更新后的currentLevelId: " + currentLevelId);
-        Debug.Log("[GameLevelMgr] 更新后的GameDataMgr.currentSceneId: " + GameDataMgr.Instance.currentSceneId);
-        // ��ʼ��ʱ�䣨ÿ��ˢ�£�
-        remainTime = data.timeLimit;
+
+        // 初始化游戏状态
+        remainTime = data.timeLimit;  // 从数据中获取时间限制
         isRunning = true;
-        Debug.Log("[GameLevelMgr] 设置isRunning为true，当前isRunning状态: " + isRunning);
 
-        // ȷ�� GamePanel �Ѿ�����
+        // 显示游戏UI面板
         UIManager.Instance.ShowPanel<GamePanel>();
-        // ��ʼ�� UI
-        GamePanel panel = UIManager.Instance.GetPanel<GamePanel>();
 
+        // 获取游戏面板引用
+        GamePanel panel = UIManager.Instance.GetPanel<GamePanel>();
 
         if (panel == null)
         {
-            Debug.LogError(" GamePanel ��ȻΪ null");
+            // 面板获取失败，返回
             return;
         }
-        // ��ʼ�� UI
+
+        // 初始化UI显示
         panel.SetTime(remainTime);
         panel.SetScore(CurrentScore);
 
-        // ȷ�������ظ�����Э��
+        // 启动计时协程
         if (timeCoroutine != null)
             StopCoroutine(timeCoroutine);
-        // ��������ʱ
+
         timeCoroutine = StartCoroutine(TimeCounter());
     }
 
-    #endregion
-
-    #region ����ʱ�߼�
-
+    // 计时协程
     private IEnumerator TimeCounter()
     {
+        // 当游戏运行且时间未耗尽时持续计时
         while (isRunning && remainTime > 0)
         {
             yield return new WaitForSeconds(1f);
 
             remainTime--;
 
+            // 更新UI显示
             UIManager.Instance.GetPanel<GamePanel>().SetTime(remainTime);
         }
 
+        // 时间耗尽处理
         if (remainTime <= 0)
         {
             OnTimeOut();
         }
     }
-    // ���ӷ���
+
+    // 增加分数
     public void AddScore(int value)
     {
         CurrentScore += value;
 
+        // 更新UI显示
         UIManager.Instance.GetPanel<GamePanel>().SetScore(CurrentScore);
     }
-    // ʱ��ľ�
+
+    // 超时处理
     private void OnTimeOut()
     {
         isRunning = false;
 
-        // ֹͣЭ��
+        // 停止计时协程
         if (timeCoroutine != null)
         {
             StopCoroutine(timeCoroutine);
             timeCoroutine = null;
         }
 
+        // 显示失败面板
         UIManager.Instance.ShowPanel<FailPanel>();
     }
-    #endregion
 
-    #region �ؿ����
-
-    /// <summary>
-    /// ���յ� Trigger ����������
-    /// </summary>
-    /// // �ؿ���ɣ����յ� / ����������
+    // 关卡完成处理
     public void OnLevelFinish()
     {
-        Debug.Log("[GameLevelMgr] OnLevelFinish 被调用，当前关卡ID: " + currentLevelId);
-        Debug.Log("[GameLevelMgr] OnLevelFinish 中的isRunning状态: " + isRunning);
+        // 如果游戏不在运行状态则返回
         if (!isRunning) return;
 
-        Debug.Log("[GameLevelMgr] 执行关卡完成逻辑...");
+        // 停止游戏运行
         isRunning = false;
         StopTimeCoroutine();
+
         // 显示通关面板
-        Debug.Log("[GameLevelMgr] 显示LevelCompletePanel...");
         var panel = UIManager.Instance.ShowPanel<LevelCompletePanel>();
         if (panel != null)
         {
-            Debug.Log("[GameLevelMgr] 设置关卡完成文本...");
-            panel.SetText("��ϲ����Լ����ؿ�");
-        }
-        else
-        {
-            Debug.LogError("[GameLevelMgr] 显示LevelCompletePanel失败！");
+            // 设置面板文本（当前为空字符串）
+            panel.SetText(" ");
         }
     }
 
-    /// <summary>
-    /// ͨ���������������
-    /// </summary>
+    // 继续下一关
     public void ContinueNextLevel()
     {
-
-
+        // 计算下一关ID
         int nextId = GameDataMgr.Instance.currentSceneId + 1;
 
+        // 查找下一关数据
         SceneData nextLevel = GameDataMgr.Instance.sceneDataList
             .Find(s => s.id == nextId);
 
         if (nextLevel == null)
         {
-            Debug.Log("�Ѿ������һ��");
+            // 没有下一关（可能是最后一关）
             return;
         }
-        Debug.Log("Load Scene = " + nextLevel.sceneName);
 
+        // 加载下一关场景
         SceneManager.LoadScene(nextLevel.sceneName);
-       
     }
 
+    // 下一场景加载完成回调（当前未使用）
     private void OnNextSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         SceneManager.sceneLoaded -= OnNextSceneLoaded;
         StartLevel(currentLevelId + 1);
-
     }
 
-    /// ���г���������ɶ��ᴥ��
-    /// ���ǡ��ؿ�������ʼ����Ψһ���
-
+    // 场景加载完成回调
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("[GameLevelMgr] OnSceneLoaded 被调用，场景名称: " + scene.name);
-
-        // 获取当前场景的 SceneData   这个是关卡管理的直接入口
+        // 根据场景名称查找对应的关卡数据
         SceneData data = GameDataMgr.Instance.sceneDataList
             .Find(s => s.sceneName == scene.name);
 
         if (data == null)
         {
-            Debug.Log($"[GameLevelMgr] 不是关卡场景，不进行初始化: {scene.name}");
+            // 不是游戏关卡场景，直接返回
             return;
         }
 
-
-        Debug.Log($"[GameLevelMgr] 加载关卡 {data.id} : {data.sceneName}");
-
+        // 开始对应关卡
         StartLevel(data.id);
     }
 
-    #endregion
+    // 停止计时协程
     private void StopTimeCoroutine()
     {
         if (timeCoroutine != null)
@@ -240,9 +212,4 @@ public class GameLevelMgr : MonoBehaviour
             timeCoroutine = null;
         }
     }
-   
-
-  
-
-  
 }

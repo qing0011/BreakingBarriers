@@ -280,8 +280,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   atk: 20
   def: 1
-  maxHp: 10
-  hp: 10
+  maxHp: 20
+  hp: 20
   tankHead: {fileID: 6884407809079047442}
   moveSpeed: 10
   roundSpeed: 100

@@ -12,13 +12,16 @@ public class LevelCompletePanel : BasePanel
 
     public override void Init()
     {
+        btnGoOn.onClick.RemoveAllListeners();
+
         btnGoOn.onClick.AddListener(() =>
         {
       
             GameLevelMgr.Instance.ContinueNextLevel();
             UIManager.Instance.HidePanel<LevelCompletePanel>();
-            Destroy(gameObject);
+            //Destroy(gameObject);
         });
+
     }
 
     public void SetText(string msg)
