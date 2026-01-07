@@ -1,0 +1,9 @@
+[
+{"id":1,"res":"UI/SignIn1","sceneName":"GameScene01","reward":100,"timeLimit":30},
+{"id":2,"res":"UI/SignIn2","sceneName":"GameScene02","reward":100,"timeLimit":30},
+{"id":3,"res":"UI/SignIn3","sceneName":"GameScene03","reward":200,"timeLimit":30},
+{"id":4,"res":"UI/SignIn4","sceneName":"GameScene04","reward":200,"timeLimit":30},
+{"id":5,"res":"UI/SignIn5","sceneName":"GameScene05","reward":300,"timeLimit":50},
+{"id":6,"res":"UI/SignIn6","sceneName":"GameScene06","reward":300,"timeLimit":50},
+{"id":7,"res":"UI/SignIn7","sceneName":"GameScene07","reward":400,"timeLimit":50}
+]

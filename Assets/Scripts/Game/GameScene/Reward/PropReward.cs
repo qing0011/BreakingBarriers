@@ -34,7 +34,7 @@ public class PropReward : MonoBehaviour
                 case E_PropType.MaxHp:
                     player.maxHp += changeValue;
                     //更新血条
-                    GamePanel.Instance.UpdateHP(player.maxHp, player.hp);
+                   // GamePanel.Instance.UpdateHP(player.maxHp, player.hp);
                     break;
                 case E_PropType.Hp:
                     player.hp += changeValue;
@@ -42,7 +42,7 @@ public class PropReward : MonoBehaviour
                     if (player.hp > player.maxHp)
                         player.hp = player.maxHp;
                     //更新血条
-                    GamePanel.Instance.UpdateHP(player.maxHp, player.hp);
+                   // GamePanel.Instance.UpdateHP(player.maxHp, player.hp);
                     break;
             }
         }
@@ -52,7 +52,7 @@ public class PropReward : MonoBehaviour
         //控制及获取音效
         AudioSource audioS = eff.GetComponent<AudioSource>();
         audioS.volume = GameDataMgr.Instance.musicData.soundValue;
-        audioS.mute = !GameDataMgr.Instance.musicData.isOpenSound;
+        audioS.mute = !GameDataMgr.Instance.musicData.soundOpen;
         Destroy(this.gameObject);
     }
     

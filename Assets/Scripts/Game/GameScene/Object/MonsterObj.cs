@@ -93,51 +93,64 @@ public class MonsterObj : TankBaseObj
     }
     public override void Dead()
     {
-       
+        base.Dead();
         //死亡加分
         // 检查GamePanel.Instance是否不为null
-        if (GamePanel.Instance != null)
+        //错误
+        //if (GamePanel.Instance != null)
+        //{
+        //    GamePanel.Instance.AddScore(10);
+        //}
+
+        ///上面是通过GamePanel的单例模式去获得的。。下面这个用UIManager去获得的。
+        ///只是获得的方式不一样，写法出了问题
+        
+
+        //正确
+        // 方式1：通过UIManager获取GamePanel
+        if (UIManager.Instance != null)
         {
-            GamePanel.Instance.AddScore(10);
+            GameLevelMgr.Instance.AddScore(10);
+
         }
-        // GamePanel.Instance.AddScore(10);// GamePanel.Instance.AddScore(10);
+
         base.Dead();
     }
-    private void OnGUI()
-    {
-        if(showTime > 0)
-        {
-            //连续计时
-            showTime-= Time.deltaTime;
+    //private void OnGUI()
+    //{
+    //    if(showTime > 0)
+    //    {
+    //        //连续计时
+    //        showTime-= Time.deltaTime;
 
-            //绘制血条
-            //1，怪物当前位置转换为屏幕位置
-            //可以利用知识：摄像机里提供的API将世界坐标转换为屏幕坐标
-            Vector3 screenPos = Camera.main.WorldToScreenPoint(this.transform.position);
-            //2,屏幕坐标转换为GUI位置
-            //知识点：如何得到当前屏幕的分辨率
-            screenPos.y = Screen.height - screenPos.y;
+    //        //绘制血条
+    //        //1，怪物当前位置转换为屏幕位置
+    //        //可以利用知识：摄像机里提供的API将世界坐标转换为屏幕坐标
+    //        Vector3 screenPos = Camera.main.WorldToScreenPoint(this.transform.position);
+    //        //2,屏幕坐标转换为GUI位置
+    //        //知识点：如何得到当前屏幕的分辨率
+    //        screenPos.y = Screen.height - screenPos.y;
 
-            //开始绘制
-            //知识点：GUI中的图片绘制
-            //底图
-            maxHpRect.x = screenPos.x - 50;
-            maxHpRect.y = screenPos.y - 50;
-            maxHpRect.width = 100;
-            maxHpRect.height = 15;
-            //画底图
-            GUI.DrawTexture(maxHpRect, maxHpBK);
+    //        //开始绘制
+    //        //知识点：GUI中的图片绘制
+    //        //底图
+    //        maxHpRect.x = screenPos.x - 50;
+    //        maxHpRect.y = screenPos.y - 50;
+    //        maxHpRect.width = 100;
+    //        maxHpRect.height = 15;
+    //        //画底图
+    //        GUI.DrawTexture(maxHpRect, maxHpBK);
 
-            hpRect.x = screenPos.x - 50;
-            hpRect.y = screenPos.y - 50;
-            //根据血量和最大血量的百分比 决定画多宽
-            hpRect.width = (float)hp / maxHp * 100f;
-            hpRect.height = 15;
-            //画血条
-            GUI.DrawTexture(hpRect, hpBK);
+    //        hpRect.x = screenPos.x - 50;
+    //        hpRect.y = screenPos.y - 50;
+    //        //根据血量和最大血量的百分比 决定画多宽
+    //        hpRect.width = (float)hp / maxHp * 100f;
+    //        hpRect.height = 15;
+    //        //画血条
+    //        GUI.DrawTexture(hpRect, hpBK);
 
-        }
-    }
+    //    }
+    //}
  
     public override void Wound(TankBaseObj other)
     {

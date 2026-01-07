@@ -22,7 +22,7 @@ public class WeaponReward : MonoBehaviour
             //控制及获取音效
             AudioSource audioS = eff.GetComponent<AudioSource>();
             audioS.volume = GameDataMgr.Instance.musicData.soundValue;
-            audioS.mute = !GameDataMgr.Instance.musicData.isOpenSound;
+            audioS.mute = !GameDataMgr.Instance.musicData.soundOpen;
            
           
 

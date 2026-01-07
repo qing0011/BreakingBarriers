@@ -25,7 +25,7 @@ public class CubeObj : MonoBehaviour
         GameObject effObj = Instantiate(deadEff, this.transform.position, this.transform.rotation);
         AudioSource audioS = effObj.GetComponent<AudioSource>();
         audioS.volume = GameDataMgr.Instance.musicData.soundValue;
-        audioS.mute = !GameDataMgr.Instance.musicData.isOpenSound;
+        audioS.mute = !GameDataMgr.Instance.musicData.soundOpen;
 
         Destroy(this.gameObject);
 

@@ -34,7 +34,7 @@ public class BulletObj : MonoBehaviour
             //修改音效的音量和开启状态
             AudioSource audios = eff.GetComponent<AudioSource>();
             audios.volume = GameDataMgr.Instance.musicData.soundValue;
-            audios.mute = GameDataMgr.Instance.musicData.isOpenSound;
+            audios.mute = GameDataMgr.Instance.musicData.soundOpen;
         }
         Destroy(this.gameObject);
     }

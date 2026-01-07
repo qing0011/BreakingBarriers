@@ -49,20 +49,28 @@ public class PlayerObj : TankBaseObj
     }
     public override void Dead()
     {
-        //base.Dead();
+         base.Dead();
 
         //处理失败逻辑显示失败界面
-        Time.timeScale = 0;
-        FailPanel.Instance.ShowMe();
+        Time.timeScale = 0.1f;
+        UIManager.Instance.ShowPanel<FailPanel>();
+        
 
     }
     public override void Wound(TankBaseObj other)
     {
         base.Wound(other);
 
-        //更新主面板血条
+        // 获取GamePanel实例
+        GamePanel gamePanel = FindObjectOfType<GamePanel>();
+        if (gamePanel != null)
+        {
+            //更新主面板血条
+            gamePanel.UpdateHP(this.maxHp, this.hp);
+        }
+    
 
-        GamePanel.Instance.UpdateHP(this.maxHp, this.hp);
+    
     }
     public void ChangeWeapon(GameObject weapon)
     {

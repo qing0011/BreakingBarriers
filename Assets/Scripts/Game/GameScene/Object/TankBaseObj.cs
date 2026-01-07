@@ -57,7 +57,7 @@ public abstract class TankBaseObj : MonoBehaviour
             //音效大小设置
             audioSource.volume = GameDataMgr.Instance.musicData.soundValue;
             //音效是否播放设置
-            audioSource.mute = !GameDataMgr.Instance.musicData.isOpenSound;
+            audioSource.mute = !GameDataMgr.Instance.musicData.soundOpen;
 
             audioSource.Play();
         }
