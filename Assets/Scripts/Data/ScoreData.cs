@@ -5,6 +5,6 @@ using UnityEngine;
 [System.Serializable]
 public class ScoreData
 {
-    public int maxScore=0;
+   public int maxScore=0;
 }
 

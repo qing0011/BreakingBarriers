@@ -39,7 +39,7 @@ public class GameDataMgr
     //玩家最高分记录
     public ScoreData scoreData;
 
-    private const string SCORE_SAVE_FILE = "PlayerScoreSave";
+    private const string SCORE_SAVE_FILE = "scoreData";
     private GameDataMgr()
     {
         //可以去初始化 游戏数据
@@ -63,7 +63,7 @@ public class GameDataMgr
             };
             SaveSignInData();
         }
-
+        //积分存储
         scoreData = JsonMgr.Instance.LoadData<ScoreData>(SCORE_SAVE_FILE);
         if (scoreData == null)
         {
@@ -129,19 +129,26 @@ public class GameDataMgr
     }
 
     //最高积分方法
-  
+
     public void SaveScoreData()
     {
         JsonMgr.Instance.SaveData(scoreData, SCORE_SAVE_FILE);
     }
 
-    /// ⭐ 用“本局积分”尝试刷新最高分
-    public void TryRefreshMaxScore(int currentScore)
+    //用“本局积分”尝试刷新最高分
+    public void TryRefreshMaxScore(int fistScore)
     {
-        if (currentScore > scoreData.maxScore)
+        if (fistScore > scoreData.maxScore)
         {
-            scoreData.maxScore = currentScore;
+            scoreData.maxScore = fistScore;
             SaveScoreData();
         }
     }
+    /// 重置最高分
+    public void ResetMaxScore()
+    {
+        scoreData.maxScore = 0;
+        SaveScoreData();
+    }
+
 }

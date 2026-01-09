@@ -66,7 +66,11 @@ public class GameLevelMgr : MonoBehaviour
         GameDataMgr.Instance.currentSceneId = data.id;
         // 设置当前关卡ID
         currentLevelId = data.id;
-
+        // 第一关时清空积分
+        if (levelId == 1)
+        {
+            CurrentScore = 0;
+        }
         // 初始化游戏状态
         remainTime = data.timeLimit;  // 从数据中获取时间限制
         isRunning = true;
@@ -104,8 +108,14 @@ public class GameLevelMgr : MonoBehaviour
 
             remainTime--;
 
-            // 更新UI显示
-            UIManager.Instance.GetPanel<GamePanel>().SetTime(remainTime);
+            // 更新UI显示(第一种）
+            // UIManager.Instance.GetPanel<GamePanel>().SetTime(remainTime);
+            //UI消失时不更新
+            var panel = UIManager.Instance.GetPanel<GamePanel>();
+            if (panel != null)
+            {
+                panel.SetTime(remainTime);
+            }
         }
 
         // 时间耗尽处理
@@ -136,7 +146,7 @@ public class GameLevelMgr : MonoBehaviour
             StopCoroutine(timeCoroutine);
             timeCoroutine = null;
         }
-
+      
         // 显示失败面板
         UIManager.Instance.ShowPanel<FailPanel>();
     }

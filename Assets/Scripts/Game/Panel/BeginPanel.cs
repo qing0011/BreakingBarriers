@@ -16,17 +16,26 @@ public class BeginPanel : BasePanel
     public Button btnEmail;
     public TextMeshProUGUI BestScore;
 
-   
+    public Button btnResetScore;
+
     public override void Init()
     {
-        int bestScore = GameDataMgr.Instance.scoreData.maxScore;
-        SetBestScore(bestScore);
+        btnResetScore.onClick.RemoveAllListeners();
+        btnResetScore.onClick.AddListener(() =>
+        {
+
+            GameDataMgr.Instance.ResetMaxScore();
+
+            //  立刻刷新 UI
+            SetBestScore(GameDataMgr.Instance.scoreData.maxScore);
+        });
+
         //在Game试图锁定鼠标
         //Cursor.lockState = CursorLockMode.Confined;
         //启动开始面板事件
         btnBegin.onClick.AddListener(() =>
         {
-
+            GameDataMgr.Instance.ResetGameData();
             GameDataMgr.Instance.currentSceneId = 1;
 
             SceneData first = GameDataMgr.Instance.sceneDataList
@@ -63,6 +72,8 @@ public class BeginPanel : BasePanel
         {
             UIManager.Instance.ShowPanel<SignInPanel>();
         });
+        int bestScore = GameDataMgr.Instance.scoreData.maxScore;
+        SetBestScore(bestScore);
 
     }
     public void SetBestScore(int basetScore)
