@@ -20,7 +20,7 @@ public class GameLevelMgr : MonoBehaviour
     private Coroutine timeCoroutine;
 
     // 当前得分（属性，外部可读不可写）
-    public int CurrentScore { get; private set; }
+    public int CurrentScore;
 
     private void Awake()
     {
@@ -122,6 +122,7 @@ public class GameLevelMgr : MonoBehaviour
 
         // 更新UI显示
         UIManager.Instance.GetPanel<GamePanel>().SetScore(CurrentScore);
+       
     }
 
     // 超时处理

@@ -25,22 +25,19 @@ public class GamePanel : BasePanel
     public float hpw = 350;
     private int time;
 
-    //protected override void Update()
-    //{
-    //    base.Update();
-    //    hpText.text = GameDataMgr.Instance.playerHP.ToString();
-    //    labScore.text = GameDataMgr.Instance.labScore.ToString();
-    //    labTime.text = GameDataMgr.Instance.labTime.ToString();
-    //}
+    
     //¼àÌýÊÂ¼þ°´Å¥
     public override void Init()
     {
-
+      btnSetting.onClick.RemoveAllListeners();
         btnSetting.onClick.AddListener(() =>
         {
+
             UIManager.Instance.ShowPanel<SettingPanel>();
-            Time.timeScale = 0;
+            //Time.timeScale = 0.1f;
         });
+
+        btnReturn.onClick.RemoveAllListeners();
         btnReturn.onClick.AddListener(() =>
         {
             UIManager.Instance.HidePanel<GamePanel>();
@@ -69,6 +66,7 @@ public class GamePanel : BasePanel
     {
         
         labScore.text = score.ToString();
+
     }
 
     public void SetTime(int seconds)

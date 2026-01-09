@@ -35,6 +35,11 @@ public class GameDataMgr
     public int labScore;
     public int labTime;
 
+
+    //玩家最高分记录
+    public ScoreData scoreData;
+
+    private const string SCORE_SAVE_FILE = "PlayerScoreSave";
     private GameDataMgr()
     {
         //可以去初始化 游戏数据
@@ -59,6 +64,12 @@ public class GameDataMgr
             SaveSignInData();
         }
 
+        scoreData = JsonMgr.Instance.LoadData<ScoreData>(SCORE_SAVE_FILE);
+        if (scoreData == null)
+        {
+            scoreData = new ScoreData();
+            SaveScoreData(); // 立刻生成存档
+        }
     }
     /// <summary>
     /// 新游戏 / 返回开始界面时调用 重置
@@ -117,4 +128,20 @@ public class GameDataMgr
         GameObject.Destroy(musicObj, 1);
     }
 
+    //最高积分方法
+  
+    public void SaveScoreData()
+    {
+        JsonMgr.Instance.SaveData(scoreData, SCORE_SAVE_FILE);
+    }
+
+    /// ⭐ 用“本局积分”尝试刷新最高分
+    public void TryRefreshMaxScore(int currentScore)
+    {
+        if (currentScore > scoreData.maxScore)
+        {
+            scoreData.maxScore = currentScore;
+            SaveScoreData();
+        }
+    }
 }

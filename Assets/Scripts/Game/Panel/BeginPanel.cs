@@ -19,6 +19,8 @@ public class BeginPanel : BasePanel
    
     public override void Init()
     {
+        int bestScore = GameDataMgr.Instance.scoreData.maxScore;
+        SetBestScore(bestScore);
         //在Game试图锁定鼠标
         //Cursor.lockState = CursorLockMode.Confined;
         //启动开始面板事件
@@ -62,6 +64,11 @@ public class BeginPanel : BasePanel
             UIManager.Instance.ShowPanel<SignInPanel>();
         });
 
+    }
+    public void SetBestScore(int basetScore)
+    {
+
+        BestScore.text = basetScore.ToString();
     }
 
 
