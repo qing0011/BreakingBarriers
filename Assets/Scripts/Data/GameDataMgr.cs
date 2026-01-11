@@ -134,7 +134,41 @@ public class GameDataMgr
     {
         JsonMgr.Instance.SaveData(scoreData, SCORE_SAVE_FILE);
     }
+    //l累计总计分（每次完成游戏后获得的积分与目前拥有的积分累加）
+    public  void TryRefreshTotalScoreData()
+    {
+        //在ScoreData里面声明了两个变量数据：haveScore：是她原本拥有的，初始化为0；
+        //buyContinue：这个是购买的需要花费的钱。购买这个数据写死的话是不需要的。
 
+        //没有购买的话则就是完成关卡的积分+原视界面有的金粉进行刷新
+        //如果购买了按钮的话就会从总分里面减去购买的金币或主界面的金币进行刷新
+
+        if (labScore <= 0)
+            return;
+
+        scoreData.haveScore += labScore;
+        SaveScoreData();
+
+        Debug.Log($"【积分结算】本局:{labScore}  当前总积分:{scoreData.haveScore}");
+    }
+    //购买了继续积分（购买了按钮之后需要扣除相应的积分
+    public bool BuyContinueScoreData()
+    {
+        //就会减去购买的钱数这里时写死的比如说购买一次100金币。
+        int cost = 10; // 写死的继续费用
+
+        if (scoreData.haveScore < cost)
+        {
+            Debug.Log("【购买失败】积分不足");
+            return false;
+        }
+
+        scoreData.haveScore -= cost;
+        SaveScoreData();
+
+        Debug.Log($"【购买继续】消耗:{cost} 剩余:{scoreData.haveScore}");
+        return true;
+    }
     //用“本局积分”尝试刷新最高分
     public void TryRefreshMaxScore(int fistScore)
     {
@@ -150,5 +184,10 @@ public class GameDataMgr
         scoreData.maxScore = 0;
         SaveScoreData();
     }
-
+    /// 重置最高分
+    public void ResetTotalScore()
+    {
+        scoreData.haveScore = 0;
+        SaveScoreData();
+    }
 }

@@ -16,16 +16,25 @@ public class BeginPanel : BasePanel
     public Button btnEmail;
     public TextMeshProUGUI BestScore;
 
+    public TextMeshProUGUI totalScore;
+    //测试游戏
     public Button btnResetScore;
+    public Button btnResetTotalScore;
+
 
     public override void Init()
     {
-        // 重置游戏时间缩放，确保游戏速度正常
-        Time.timeScale = 1.0f;
-        
-        int bestScore = GameDataMgr.Instance.scoreData.maxScore;
-        SetBestScore(bestScore);
 
+        btnResetTotalScore.onClick.RemoveAllListeners();
+        btnResetTotalScore.onClick.AddListener(() =>
+        {
+
+            //GameDataMgr.Instance.ResetMaxScore();
+
+            //  重置累计积分
+            GameDataMgr.Instance.ResetTotalScore();
+            SetTatalScore(GameDataMgr.Instance.scoreData.haveScore);
+        });
 
         btnResetScore.onClick.RemoveAllListeners();
         btnResetScore.onClick.AddListener(() =>
@@ -79,14 +88,23 @@ public class BeginPanel : BasePanel
         {
             UIManager.Instance.ShowPanel<SignInPanel>();
         });
-        
+        // 重置游戏时间缩放，确保游戏速度正常
+        Time.timeScale = 1.0f;
 
+        int bestScore = GameDataMgr.Instance.scoreData.maxScore;
+        SetBestScore(bestScore);
+        int TotalScore = GameDataMgr.Instance.scoreData.haveScore;
+        SetTatalScore(TotalScore);
     }
     public void SetBestScore(int basetScore)
     {
 
         BestScore.text = basetScore.ToString();
     }
+    public void SetTatalScore(int TotalScore)
+    {
 
+        totalScore.text = TotalScore.ToString();
+    }
 
 }

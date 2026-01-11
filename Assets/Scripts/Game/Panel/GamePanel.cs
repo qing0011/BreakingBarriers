@@ -36,6 +36,8 @@ public class GamePanel : BasePanel
         btnReturn.onClick.RemoveAllListeners();
         btnReturn.onClick.AddListener(() =>
         {
+            GameDataMgr.Instance.TryRefreshMaxScore(GameDataMgr.Instance.labScore);
+            GameDataMgr.Instance.TryRefreshTotalScoreData();
 
             //返回后必须重置
             GameDataMgr.Instance.ResetGameData();

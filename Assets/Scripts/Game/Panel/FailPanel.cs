@@ -17,6 +17,7 @@ public class FailPanel : BasePanel
         btnBack.onClick.AddListener(() =>
         {
             GameDataMgr.Instance.TryRefreshMaxScore(currentScore);
+            GameDataMgr.Instance.TryRefreshTotalScoreData();
             //取消暂停
             Time.timeScale = 1f;
             
@@ -27,11 +28,24 @@ public class FailPanel : BasePanel
         btnGoOn.onClick.RemoveAllListeners();
         btnGoOn.onClick.AddListener(() =>
         {
-            
-            Time.timeScale = 1f;
+            bool success = GameDataMgr.Instance.BuyContinueScoreData();
+            if (success)
+            {
+                //复活玩家
+                //恢复少量血量 or 重置位置
+                Time.timeScale = 1f;
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                UIManager.Instance.HidePanel<FailPanel>();
+            }
+            else
+            {
+                //提示积分不足
+                Debug.Log("积分不足，无法继续");
+               UIManager.Instance.ShowPanel<TipPanel>();
+            }
            
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            UIManager.Instance.HidePanel<FailPanel>();
+           
+           
 
         });
        
