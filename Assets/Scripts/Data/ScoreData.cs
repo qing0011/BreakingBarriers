@@ -9,7 +9,7 @@ public class ScoreData
     //添加
     //当前拥有积分
     public int haveScore =0;
-    //购买的继续按钮
-    //public int buyContinue;
+    // 本局已继续的次数（重点）
+    public int continueCount = 0;
 }
 

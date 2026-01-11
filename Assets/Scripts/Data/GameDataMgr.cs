@@ -40,6 +40,9 @@ public class GameDataMgr
     public ScoreData scoreData;
 
     private const string SCORE_SAVE_FILE = "scoreData";
+    //继续游戏基础价格
+    private const int CONTINUE_BASE_COST = 10;
+
     private GameDataMgr()
     {
         //可以去初始化 游戏数据
@@ -79,7 +82,9 @@ public class GameDataMgr
         playerHP = maxHP;
         labScore = 0;
         labTime = 0;
-
+        //重置本局继续次数
+        scoreData.continueCount = 0;
+        SaveScoreData();
         Debug.Log("【GameDataMgr】游戏数据已重置");
     }
     public SceneData GetCurrentSceneData()
@@ -128,6 +133,16 @@ public class GameDataMgr
         GameObject.Destroy(musicObj, 1);
     }
 
+    /// <summary>
+    /// 获取本次继续所需的积分
+    /// 100 → 200 → 400 → ...
+    /// </summary>
+    public int GetContinueCost()
+    {
+        // 100 * 2^continueCount
+        return CONTINUE_BASE_COST * (1 << scoreData.continueCount);
+    }
+
     //最高积分方法
 
     public void SaveScoreData()
@@ -155,7 +170,7 @@ public class GameDataMgr
     public bool BuyContinueScoreData()
     {
         //就会减去购买的钱数这里时写死的比如说购买一次100金币。
-        int cost = 10; // 写死的继续费用
+        int cost = GetContinueCost();
 
         if (scoreData.haveScore < cost)
         {
@@ -164,6 +179,7 @@ public class GameDataMgr
         }
 
         scoreData.haveScore -= cost;
+        scoreData.continueCount++; // 关键点：成功才递增
         SaveScoreData();
 
         Debug.Log($"【购买继续】消耗:{cost} 剩余:{scoreData.haveScore}");

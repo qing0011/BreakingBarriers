@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ public class FailPanel : BasePanel
 {
     public Button btnBack;
     public Button btnGoOn;
-
+    public TMP_Text txtContinueCost;
     private int currentScore; 
 
     public override void Init()
@@ -43,9 +44,10 @@ public class FailPanel : BasePanel
                 Debug.Log("积分不足，无法继续");
                UIManager.Instance.ShowPanel<TipPanel>();
             }
-           
-           
-           
+
+            Debug.Log("FailPanel Init 被调用");
+            txtContinueCost.text ="继续需要：" +GameDataMgr.Instance.GetContinueCost();
+
 
         });
        

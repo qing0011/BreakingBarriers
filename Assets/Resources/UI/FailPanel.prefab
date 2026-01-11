@@ -792,6 +792,7 @@ MonoBehaviour:
   isShow: 0
   btnBack: {fileID: 4789877309860446212}
   btnGoOn: {fileID: 4789877311071529019}
+  txtContinueCost: {fileID: 4789877311317756501}
 --- !u!1 &8448393007722248889
 GameObject:
   m_ObjectHideFlags: 0
