@@ -3674,6 +3674,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BeginPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 3517224123179196583, guid: ee666d4b0ca141c44b04d7d8dcc08b36, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee666d4b0ca141c44b04d7d8dcc08b36, type: 3}
 --- !u!4 &494592537 stripped
@@ -13537,7 +13541,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2992696373356994053, guid: 1a0ff89787f5f774098412611cea0ff6, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2992696373356994057, guid: 1a0ff89787f5f774098412611cea0ff6, type: 3}
       propertyPath: m_Pivot.x

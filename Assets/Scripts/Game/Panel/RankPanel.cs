@@ -2,21 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
+using TMPro;
 
 public class RankPanel : BasePanel
 {
-    public CustomGUIButton btnClose;
+    public Button btnClose;
 
     //关联对象（较多对象需要列表用代码查找
     //因为控件较多 拖的话 工作量太大了 我们直接偷懒 通过代码找
     
-    private List<CustomGUILabel> labName = new List<CustomGUILabel>();
-    private List<CustomGUILabel> labScore = new List<CustomGUILabel>();
-    private List<CustomGUILabel> labTime = new List<CustomGUILabel>();
+    private List<TMP_Text> labName = new List<TMP_Text>();
+    private List<TMP_Text> labScore = new List<TMP_Text>();
+    private List<TMP_Text> labTime = new List<TMP_Text>();
     /// <summary>
     /// /////////////////////////////////////////
     /// </summary>
-    public CustomGUIButton btnClear;//轻触按键
+    public Button btnClear;//轻触按键
 
 
     public override void Init()
@@ -30,28 +32,32 @@ public class RankPanel : BasePanel
 
 
             //labPM.Add(this.transform.Find("PM/labPM" + i).GetComponent<CustomGUILabel>());
-            labName.Add(this.transform.Find("Name/labName" + i).GetComponent<CustomGUILabel>());
-            labScore.Add(this.transform.Find("Score/labScore" + i).GetComponent<CustomGUILabel>());
-            labTime.Add(this.transform.Find("Time/labTime" + i).GetComponent<CustomGUILabel>());
+            labName.Add(this.transform.Find("Name/labName" + i).GetComponent<TMP_Text>());
+            labScore.Add(this.transform.Find("Score/labScore" + i).GetComponent<TMP_Text>());
+            labTime.Add(this.transform.Find("Time/labTime" + i).GetComponent<TMP_Text>());
 
         }
 
         //关闭按钮事件
-        btnClose.clickEvent += () =>
+        btnClose.onClick.RemoveAllListeners();
+        btnClose.onClick.AddListener(() =>
         {
             UIManager.Instance.HidePanel<RankPanel>();
             //开启开始面板
-           // UIManager.Instance.ShowPanel<BeginPanel>();
-        };
+            // UIManager.Instance.ShowPanel<BeginPanel>();
+        });
+       
         //////////////////////////////////////////////////////////////////////
         //清空按钮
-        btnClear.clickEvent += () =>
+        btnClear.onClick.RemoveAllListeners();
+        btnClear.onClick.AddListener(() =>
         {
             GameDataMgr.Instance.rankData.list.Clear();
             //GameDataMgr.Instance.Save();
             // 更新UI
             UpdatePanelInfo();
-        };
+        });
+       
         ////////////////////////////////////////////////////////
         UIManager.Instance.HidePanel<RankPanel>();
     }
@@ -81,37 +87,37 @@ public class RankPanel : BasePanel
         for (int i = 0; i < list.Count ; i++)
         {
             //名字
-            labName[i].content.text = list[i].name;
+            labName[i].text = list[i].name;
             //分数
-            labScore[i].content.text = list[i].score.ToString();
+            labScore[i].text = list[i].score.ToString();
             //时间 存储的时间单位是s
             //把秒数 转换成 时  分 秒
             int time = (int)list[i].time;
-            labTime[i].content.text = "";
+            labTime[i].text = "";
             //得到 几个小时
             // 8432s  60*60 = 3600
             //8432 / 3600 ≈ 2时
             if (time / 3600 > 0)
             {
-                labTime[i].content.text += time / 3600 + "时";
+                labTime[i].text += time / 3600 + "时";
             }
             //8432-7200 余 1232s
             // 1232s / 60 ≈ 20分  
-            if (time % 3600 / 60 > 0 || labTime[i].content.text != "")
+            if (time % 3600 / 60 > 0 || labTime[i].text != "")
             {
-                labTime[i].content.text += time % 3600 / 60 + "分";
+                labTime[i].text += time % 3600 / 60 + "分";
             }
             //1232s-1200 余 32秒
-            labTime[i].content.text += time % 60 + "秒";
+            labTime[i].text += time % 60 + "秒";
         }
 
         //////////////////////////////////////////////////////////////////////////
         // 把剩余没有数据的UI清空
         for (int i = count; i < labName.Count; i++)
         {
-            labName[i].content.text = "";
-            labScore[i].content.text = "";
-            labTime[i].content.text = "";
+            labName[i].text = "";
+            labScore[i].text = "";
+            labTime[i].text = "";
         }
         //////////////////////////////////////////////////////////////////
        

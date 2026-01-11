@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class QuitPanel : BasePanel
 {
-    public CustomGUIButton btnQuit;
-    public CustomGUIButton btnGoOn;
-    public CustomGUIButton btnClose;
+    public Button btnQuit;
+    public Button btnGoOn;
+    public Button btnClose;
 
     //public override void HideMe()
     //{
@@ -17,19 +18,22 @@ public class QuitPanel : BasePanel
 
     public override void Init()
     {
-        btnQuit.clickEvent += () =>
+        btnQuit.onClick.RemoveAllListeners();
+        btnQuit.onClick.AddListener(() =>
         {
-            SceneManager.LoadScene("BeginScene");
-        };
-        btnGoOn.clickEvent += () =>
+
+        });
+        btnGoOn.onClick.RemoveAllListeners();
+        btnGoOn.onClick.AddListener(() =>
         {
-            UIManager.Instance.HidePanel<QuitPanel>();
-            
-        };
-        btnClose.clickEvent += () =>
+
+        });
+        btnClose.onClick.RemoveAllListeners();
+        btnClose.onClick.AddListener(() =>
         {
-            UIManager.Instance.HidePanel<QuitPanel>();
-        };
+
+        });
+      
         UIManager.Instance.HidePanel<QuitPanel>();
     }
 }
