@@ -8,7 +8,7 @@ public abstract class BasePanel : MonoBehaviour
     //控制面板透明度组件（CanvasGroup 可控制透明、交互、点击穿透）
     private CanvasGroup canvasGroup;
     //淡入淡出速度
-    private float alphaSpeed=5;
+    private float alphaSpeed=20;
     //标记当前隐藏还是显示
     public bool isShow=false;
     //隐藏完成之后要执行的方法

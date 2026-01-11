@@ -53,8 +53,17 @@ public class PlayerObj : TankBaseObj
 
         //处理失败逻辑显示失败界面
         Time.timeScale = 0.1f;
-        UIManager.Instance.ShowPanel<FailPanel>();
-        
+       // UIManager.Instance.ShowPanel<FailPanel>();
+        if (UIManager.Instance.ShowPanel<FailPanel>())
+        {
+            return;
+        }
+        else
+        {
+            UIManager.Instance.ShowPanel<LevelCompletePanel>();
+        }
+
+
 
     }
     public override void Wound(TankBaseObj other)

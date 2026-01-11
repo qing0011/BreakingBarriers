@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class BeginPanel : BasePanel
 {
-    //ÉùÃ÷±äÁ¿
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     public Button btnBegin;
     public Button btnSetting;
     public Button btnSignIn;
@@ -20,22 +20,29 @@ public class BeginPanel : BasePanel
 
     public override void Init()
     {
+        // é‡ç½®æ¸¸æˆæ—¶é—´ç¼©æ”¾ï¼Œç¡®ä¿æ¸¸æˆé€Ÿåº¦æ­£å¸¸
+        Time.timeScale = 1.0f;
+        
+        int bestScore = GameDataMgr.Instance.scoreData.maxScore;
+        SetBestScore(bestScore);
+
+
         btnResetScore.onClick.RemoveAllListeners();
         btnResetScore.onClick.AddListener(() =>
         {
 
             GameDataMgr.Instance.ResetMaxScore();
 
-            //  Á¢¿ÌË¢ĞÂ UI
+            //  æ˜¾ç¤ºæœ€é«˜ç§¯åˆ†
             SetBestScore(GameDataMgr.Instance.scoreData.maxScore);
         });
 
-        //ÔÚGameÊÔÍ¼Ëø¶¨Êó±ê
+        //é”å®šGameè¯•å›¾
         //Cursor.lockState = CursorLockMode.Confined;
-        //Æô¶¯¿ªÊ¼Ãæ°åÊÂ¼ş
+        //å¼€å§‹æŒ‰é’®
         btnBegin.onClick.AddListener(() =>
         {
-            GameDataMgr.Instance.ResetGameData();
+           
             GameDataMgr.Instance.currentSceneId = 1;
 
             SceneData first = GameDataMgr.Instance.sceneDataList
@@ -47,33 +54,32 @@ public class BeginPanel : BasePanel
             GameDataMgr.Instance.ResetGameData();
 
         });
-        //¿ªÆôÉèÖÃÃæ°åÊÂ¼ş
+        //è®¾ç½®æŒ‰é’®
         btnSetting.onClick.AddListener(() =>
         {
             UIManager.Instance.ShowPanel<SettingPanel>();
         });
 
-        ////ÍË³ö°´Å¥ÊÂ¼ş
+        ////ä¸»ç•Œé¢
         btnHome.onClick.AddListener(() =>
         {
             UIManager.Instance.ShowPanel<BeginPanel>();
         });
 
-        //ÅÅĞĞ°ñ°´Å¥ÊÂ¼ş
+        //æ’è¡Œæ¦œ
         btnRank.onClick.AddListener(() =>
         {
              UIManager.Instance.ShowPanel<RankPanel>();
 
-            //±ÜÃâ´©Í¸ Òş²Ø×Ô¼º
+            //éšè—ä¸»ç•Œé¢panel
             UIManager.Instance.HidePanel<BeginPanel>();
         });
-        //¿ªÆôÇ©µ½Ãæ°åÊÂ¼ş
+        //ç­¾åˆ°
         btnSignIn.onClick.AddListener(() =>
         {
             UIManager.Instance.ShowPanel<SignInPanel>();
         });
-        int bestScore = GameDataMgr.Instance.scoreData.maxScore;
-        SetBestScore(bestScore);
+        
 
     }
     public void SetBestScore(int basetScore)

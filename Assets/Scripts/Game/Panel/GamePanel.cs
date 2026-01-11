@@ -12,21 +12,17 @@ public class GamePanel : BasePanel
     public Button btnSetting;
     public Button btnReturn;
 
-    public TMP_Text hpText;   // HP ÊıÖµÎÄ×Ö
-    public Image hpFill;      // ÑªÌõÌî³ä
-
-    ////¼ÇÂ¼µ±Ç°·ÖÊı
-    //[HideInInspector]
-    //public int nowScore = 0;
-    //[HideInInspector]
-    //public float nowTime = 0;
+    public TMP_Text hpText;   // HP æ•°å€¼æ–‡å­—
+    public Image hpFill;      // è¡€æ¡å¡«å……
 
    
+
+
     public float hpw = 350;
     private int time;
 
-    
-    //¼àÌıÊÂ¼ş°´Å¥
+
+    //ç›‘å¬äº‹ä»¶æŒ‰é’®
     public override void Init()
     {
       btnSetting.onClick.RemoveAllListeners();
@@ -40,33 +36,29 @@ public class GamePanel : BasePanel
         btnReturn.onClick.RemoveAllListeners();
         btnReturn.onClick.AddListener(() =>
         {
+
+            //è¿”å›åå¿…é¡»é‡ç½®
+            GameDataMgr.Instance.ResetGameData();
             UIManager.Instance.HidePanel<GamePanel>();
+            Time.timeScale = 0.1f;
+
             SceneManager.LoadScene("BeginScene");
+            
         });
 
-        //// ³õÊ¼»¯UIÏÔÊ¾
-        //UpdateScoreDisplay();
-        //UpdateTimeDisplay();
+       
     }
 
-    //protected override void Update()
-    // {
-    //     base.Update();
-    //     // Í¨¹ıÖ¡ÀÛ¼Æ¼ä¸ôÊ±¼ä
-    //     nowTime += Time.deltaTime;
 
-    //     // °ÑÃë×ª»»³ÉÊ±·ÖÃë
-    //     time = (int)nowTime;
-    //     UpdateTimeDisplay();
-    // }
 
-    // ====== ¶ÔÍâ½Ó¿Ú ======
+
+    // ====== å¯¹å¤–æ¥å£ ======
 
     public void SetScore(int score)
     {
         
         labScore.text = score.ToString();
-
+        GameDataMgr.Instance.labScore = score;
     }
 
     public void SetTime(int seconds)
@@ -75,58 +67,35 @@ public class GamePanel : BasePanel
         UpdateTimeDisplay();
     }
 
-    // ====== UI ÄÚ²¿ ======
-    // ¸üĞÂÊ±¼äÏÔÊ¾
+    // ====== UI å†…éƒ¨ ======
+    // æ›´æ–°æ—¶é—´æ˜¾ç¤º
     private void UpdateTimeDisplay()
     {
         labTime.text = " ";
         if (time / 3600 > 0)
         {
-            labTime.text += time / 3600 + "Ê±";
+            labTime.text += time / 3600 + "H";
         }
         if (time % 3600 / 60 > 0 || labTime.text != " ")
         {
-            labTime.text += time % 3600 / 60 + "·Ö";
+            labTime.text += time % 3600 / 60 + "M";
         }
-        labTime.text += time % 60 + "Ãë";
+        labTime.text += time % 60 + "S";
     }
 
-    //// ¸üĞÂ·ÖÊıÏÔÊ¾
-    //private void UpdateScoreDisplay()
-    //{
-    //    labScore.text = nowScore.ToString();
-    //}
 
-    //// Ìá¹©¸øÍâ²¿¼Ó·Ö·½·¨
-    //public void AddScore(int score)
-    //{
-    //    nowScore += score;
-    //    // ¸üĞÂ½çÃæÏÔÊ¾
-    //    UpdateScoreDisplay();
-    //}
 
-    // ¸üĞÂÑªÌõ
+    // æ›´æ–°è¡€æ¡
     public void UpdateHP(int maxHP, int HP)
     {
-        // ¸üĞÂÎÄ×Ö
+        // æ›´æ–°æ–‡å­—
         hpText.text = $"{HP} / {maxHP}";
         float ratio = Mathf.Clamp01((float)HP / maxHP);
 
-        // ¸üĞÂÑªÌõ
+        // æ›´æ–°è¡€æ¡
         hpFill.fillAmount = ratio;
-        
-       
+
+
     }
 
-    //// ÖØÖÃÓÎÏ·Êı¾İ£¨¿ÉÑ¡£¬ÔÚĞèÒªÖØĞÂ¿ªÊ¼ÓÎÏ·Ê±µ÷ÓÃ£©
-    //public void ResetGameData()
-    //{
-    //    nowScore = 0;
-    //    nowTime = 0;
-    //    UpdateScoreDisplay();
-    //    UpdateTimeDisplay();
-    //}
-
-
-   
 }

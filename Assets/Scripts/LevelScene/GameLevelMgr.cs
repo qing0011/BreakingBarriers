@@ -160,14 +160,24 @@ public class GameLevelMgr : MonoBehaviour
         // 停止游戏运行
         isRunning = false;
         StopTimeCoroutine();
+       
+            // 显示通关面板
+            var panel = UIManager.Instance.ShowPanel<LevelCompletePanel>();
+            if (panel != null)
+            {
+                // 设置面板文本（当前为空字符串）
+                panel.SetText(" ");
+            }
 
-        // 显示通关面板
-        var panel = UIManager.Instance.ShowPanel<LevelCompletePanel>();
-        if (panel != null)
+        if (UIManager.Instance.ShowPanel<LevelCompletePanel>())
         {
-            // 设置面板文本（当前为空字符串）
-            panel.SetText(" ");
+            return;
         }
+        else
+        {
+            UIManager.Instance.ShowPanel<FailPanel>();
+        }
+
     }
 
     // 继续下一关

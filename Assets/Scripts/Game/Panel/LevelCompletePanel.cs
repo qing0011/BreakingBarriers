@@ -16,17 +16,18 @@ public class LevelCompletePanel : BasePanel
 
         btnGoOn.onClick.AddListener(() =>
         {
-      
+            // 刷新最高分
+            GameDataMgr.Instance.TryRefreshMaxScore(GameDataMgr.Instance.labScore);
             GameLevelMgr.Instance.ContinueNextLevel();
             UIManager.Instance.HidePanel<LevelCompletePanel>();
-            //Destroy(gameObject);
+           
         });
 
     }
 
     public void SetText(string msg)
     {
-        txtTip.text = msg;
+        txtTip.text = "恭喜通关";
     }
 
 
