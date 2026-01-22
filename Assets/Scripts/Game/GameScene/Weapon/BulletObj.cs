@@ -18,8 +18,12 @@ public class BulletObj : MonoBehaviour
     {
         //子弹射击到立方体会爆炸
         //子弹射击不同阵营会爆炸
-        if (other.CompareTag("Cube")|| other.CompareTag("Player")&&fatherObj.CompareTag("Monster")||
-             other.CompareTag("Monster") && fatherObj.CompareTag("Player"))
+        if (
+             other.CompareTag("Cube") ||
+             (other.CompareTag("Player") && fatherObj.CompareTag("Monster")) ||
+             (other.CompareTag("Monster") && fatherObj.CompareTag("Player"))
+           )
+
         {
             //判断是否受伤
             //里氏替换原则查看是否有坦克脚本在碰撞到的对象身上

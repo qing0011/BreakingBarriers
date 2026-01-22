@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
@@ -47,6 +47,12 @@ public class GameDataMgr
     //继续游戏基础价格
     private const int CONTINUE_BASE_COST = 10;
 
+    //玩家成长数据
+    public PlayerRuntimeData playerData = new PlayerRuntimeData();
+
+    // 武器预制体列表
+    public List<GameObject> weaponPrefabList = new List<GameObject>();
+
     private GameDataMgr()
     {
         //可以去初始化 游戏数据
@@ -80,18 +86,69 @@ public class GameDataMgr
             scoreData = new ScoreData();
             SaveScoreData(); // 立刻生成存档
         }
+
+        // 初始化武器预制体列表
+        try
+        {
+            // 加载所有武器预制体
+            GameObject weapon1 = Resources.Load<GameObject>("Weapon/Weapon1");
+            GameObject weapon2 = Resources.Load<GameObject>("Weapon/Weapon2");
+            GameObject weapon3 = Resources.Load<GameObject>("Weapon/Weapon3");
+
+            if (weapon1 != null)
+                weaponPrefabList.Add(weapon1);
+            if (weapon2 != null)
+                weaponPrefabList.Add(weapon2);
+            if (weapon3 != null)
+                weaponPrefabList.Add(weapon3);
+
+            Debug.Log($"【GameDataMgr】武器预制体加载完成，共加载 {weaponPrefabList.Count} 个武器");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"【GameDataMgr】武器预制体加载失败：{e.Message}");
+        }
     }
+
+
+    /// <summary>
+    /// 进入新关卡时调用
+    /// </summary>
+    public void OnEnterLevel(int levelIndex)
+    {
+        if (levelIndex == 1)
+        {
+            // 只在【新游戏】时重置
+            playerData.level = 1;
+            playerData.hp = playerData.maxHp;
+            return;
+        }
+
+
+        // 后续关卡：只成长，不重建
+        playerData.level = levelIndex;
+        playerData.attack += 5;
+        playerData.defense += 3;
+        playerData.maxHp += 20;
+        playerData.hp = playerData.maxHp;
+
+        //恢复子弹数量（很容易玩家没有子弹）
+        playerData.bulletCount = 99;
+    }
+
     /// <summary>
     /// 新游戏 / 返回开始界面时调用 重置
     /// </summary>
     public void ResetGameData()
     {
-        playerHP = maxHP;
+        //playerHP = maxHP;
         labScore = 0;
         labTime = 0;
         //重置本局继续次数
         scoreData.continueCount = 0;
         SaveScoreData();
+        // 重置玩家成长数据
+        playerData = new PlayerRuntimeData();
         Debug.Log("【GameDataMgr】游戏数据已重置");
     }
     public SceneData GetCurrentSceneData()

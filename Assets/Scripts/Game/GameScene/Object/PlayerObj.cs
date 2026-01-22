@@ -19,10 +19,10 @@ public class PlayerObj : TankBaseObj
         float v = Input.GetAxis("Vertical");
         this.transform.Translate(v* Vector3.forward * moveSpeed * Time.deltaTime);
         // 只要 WS 被按住，就尝试开火
-        if (Mathf.Abs(v) > 0.01f)
-        {
-            Fire();
-        }
+        //if (Mathf.Abs(v) > 0.01f)
+        //{
+        //    Fire();
+        //}
         //2，ad控制旋转
 
         //1，transform旋转
@@ -83,13 +83,24 @@ public class PlayerObj : TankBaseObj
             gamePanel.UpdateHP(this.maxHp, this.hp);
         }
     }
-    public void ChangeWeapon(GameObject weapon)
+    public void OnPickWeapon(int weaponId)
     {
+        //写入“持久数据”
+        GameDataMgr.Instance.playerData.weaponId = weaponId;
+
+        //立刻换外观 + 功能
+        ChangeWeaponById(weaponId);
+    }
+
+    public void ChangeWeapon(GameObject weapon, int weaponId)
+    {
+
+
         //删除当前拥有的物体
-        if(nowWeapon != null)
+        if (nowWeapon != null)
         {
             Destroy(nowWeapon.gameObject);
-            nowWeapon = null;
+            //nowWeapon = null;
         }
 
         //切换武器
@@ -99,6 +110,50 @@ public class PlayerObj : TankBaseObj
 
         //设置武器拥有者
         nowWeapon.SetFather(this);
-    
+
+        // 关键：写回数据层
+        GameDataMgr.Instance.playerData.weaponId = weaponId;
+
+        Debug.Log("【装备武器】weaponId = " + weaponId);
+
     }
+    public void ChangeWeaponById(int weaponId)
+    {
+        if (weaponId < 0) return;
+
+        if (weaponId >= GameDataMgr.Instance.weaponPrefabList.Count)
+        {
+            Debug.LogError("武器ID越界：" + weaponId);
+            return;
+        }
+
+        GameObject prefab = GameDataMgr.Instance.weaponPrefabList[weaponId];
+        ChangeWeapon(prefab, weaponId);
+    }
+
+    public void ApplyRuntimeData()
+    {
+        var data = GameDataMgr.Instance.playerData;
+
+        // 同步属性
+        this.atk = data.attack;
+        this.def = data.defense;
+        this.maxHp = data.maxHp;
+        this.hp = data.hp;
+
+        Debug.Log($"【玩家同步】攻击={atk} 防御={def} HP={hp}/{maxHp}");
+    }
+
+    public void PickWeapon(int weaponId)
+    {
+        // 写入持久数据（这是继承的根）
+        GameDataMgr.Instance.playerData.weaponId = weaponId;
+        // 换枪时，直接补满子弹
+        GameDataMgr.Instance.playerData.bulletCount = 99;
+        //  立刻装备
+        ChangeWeaponById(weaponId);
+
+        Debug.Log("【拾取武器】weaponId = " + weaponId);
+    }
+
 }

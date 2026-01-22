@@ -18,28 +18,31 @@ public class WeaponObj : MonoBehaviour
         fireTimer += Time.deltaTime;
     }
 
-
+    //很容易造成玩家没有子弹
+    private float lastFireTime = -99f;
 
     public void Fire()
     {
-        // 射速限制
-        if (fireTimer < fireInterval)
+        if (Time.time - lastFireTime < fireInterval)
             return;
 
-        fireTimer = 0f;
+        var data = GameDataMgr.Instance.playerData;
+        if (data.bulletCount <= 0)
+            return;
 
-        //根据位置创建相应的子弹
-        for (int i = 0; i < shootObj.Length; i++)
+        lastFireTime = Time.time;
+
+        foreach (var pos in shootObj)
         {
-            //创建子弹预制体
-            GameObject obj = Instantiate(bullet, shootObj[i].position, shootObj[i].rotation);
-            //控制子弹做什么
-            BulletObj bulletObj = obj.GetComponent<BulletObj>();
-            bulletObj.SetFather(fatherObj);
+            if (data.bulletCount <= 0)
+                break;
 
+            var obj = Instantiate(bullet, pos.position, pos.rotation);
+            obj.GetComponent<BulletObj>().SetFather(fatherObj);
+            data.bulletCount--;
         }
-
     }
+
     public void SetFather(TankBaseObj obj)
     {
         fatherObj = obj;

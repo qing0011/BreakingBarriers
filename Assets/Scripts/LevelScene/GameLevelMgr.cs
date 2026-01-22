@@ -110,6 +110,9 @@ public class GameLevelMgr : MonoBehaviour
         remainTime = data.timeLimit;  // 从数据中获取时间限制
         isRunning = true;
 
+        // 进入新关卡，更新玩家属性
+        GameDataMgr.Instance.OnEnterLevel(data.id);
+
         // 显示游戏UI面板
         UIManager.Instance.ShowPanel<GamePanel>();
 
@@ -131,6 +134,8 @@ public class GameLevelMgr : MonoBehaviour
             StopCoroutine(timeCoroutine);
 
         timeCoroutine = StartCoroutine(TimeCounter());
+        LoadPlayer();
+
     }
 
     // 计时协程
@@ -276,31 +281,47 @@ public class GameLevelMgr : MonoBehaviour
     // 加载玩家
     private void LoadPlayer()
     {
-        // 查找玩家的出生位置
         Transform heroPos = GameObject.Find("HeroBornPos")?.transform;
-
         if (heroPos == null)
         {
             Debug.LogError("找不到 HeroBornPos 对象！");
             return;
         }
 
-        // 实例化玩家预制体
         GameObject playerObj = Instantiate(
             Resources.Load<GameObject>("Player/PlayerPrefab"),
             heroPos.position,
             heroPos.rotation
         );
+
         PlayerObj player = playerObj.GetComponent<PlayerObj>();
-        if (player == null)
+        player.ApplyRuntimeData();
+
+        //  延迟恢复
+        StartCoroutine(RestoreWeaponNextFrame(player));
+    }
+
+    private IEnumerator RestoreWeaponNextFrame(PlayerObj player)
+    {
+        yield return null; // 等一帧，确保 Start() 执行完
+
+        int weaponId = GameDataMgr.Instance.playerData.weaponId;
+
+        if (weaponId >= 0)
         {
-            Debug.LogError("玩家预制体缺少 PlayerObj 组件！");
+            player.ChangeWeaponById(weaponId);
+            Debug.Log("【武器继承】已恢复武器 ID：" + weaponId);
         }
         else
         {
-            Debug.Log("玩家加载成功！");
+            Debug.LogWarning("【武器继承】玩家当前没有任何武器");
         }
+        Debug.Log("【weaponPos】" + player.weaponPos);
+
+
+        Debug.Log("【武器检查】nowWeapon = " + (player.nowWeapon == null ? "NULL" : "OK"));
     }
-  
+
+
     #endregion
 }
