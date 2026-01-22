@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,7 +9,7 @@ public class GameLevelMgr : MonoBehaviour
     public static GameLevelMgr Instance;
 
     // 当前关卡ID
-    private int currentLevelId;
+    public  int currentLevelId;
 
     // 剩余时间
     private int remainTime;
@@ -22,20 +23,54 @@ public class GameLevelMgr : MonoBehaviour
     // 当前得分（属性，外部可读不可写）
     public int CurrentScore;
 
+
+
+    ////加载怪物和玩家
+
+    //public PlayerObj player;
+
+    ////所欲的出怪点
+    //private List<MonsterPoint> points = new List<MonsterPoint>();
+
+
+
+
     private void Awake()
     {
-        // 单例模式实现
-        if (Instance != null)
+
+
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (Instance != this)
         {
             Destroy(gameObject);
             return;
         }
 
-        Instance = this;
-        // 使对象在场景切换时不被销毁
-        DontDestroyOnLoad(gameObject);
+       
+
+        //// 单例模式实现
+        //if (Instance != null)
+        //{
+        //    Destroy(gameObject);
+        //    return;
+        //}
+
+        //Instance = this;
+        //// 使对象在场景切换时不被销毁
+        //DontDestroyOnLoad(gameObject);
     }
 
+  
+    ////获取场景中玩家的出生位置
+    //Transform heroPos = GameObject.Find("HeroBornPos").transform;
+    ////实例化玩家预制体， 把他的位置角度设置为 场景当中出生点一致
+    //GameObject mosterObj1 = GameObject.Instantiate(Resources.Load<GameObject>("Monster/ "));
+
+    #region 场景相关关卡
     private void OnEnable()
     {
         // 注册场景加载完成事件
@@ -233,4 +268,39 @@ public class GameLevelMgr : MonoBehaviour
             timeCoroutine = null;
         }
     }
+
+    #endregion
+
+    #region 怪物相关关卡
+
+    // 加载玩家
+    private void LoadPlayer()
+    {
+        // 查找玩家的出生位置
+        Transform heroPos = GameObject.Find("HeroBornPos")?.transform;
+
+        if (heroPos == null)
+        {
+            Debug.LogError("找不到 HeroBornPos 对象！");
+            return;
+        }
+
+        // 实例化玩家预制体
+        GameObject playerObj = Instantiate(
+            Resources.Load<GameObject>("Player/PlayerPrefab"),
+            heroPos.position,
+            heroPos.rotation
+        );
+        PlayerObj player = playerObj.GetComponent<PlayerObj>();
+        if (player == null)
+        {
+            Debug.LogError("玩家预制体缺少 PlayerObj 组件！");
+        }
+        else
+        {
+            Debug.Log("玩家加载成功！");
+        }
+    }
+  
+    #endregion
 }

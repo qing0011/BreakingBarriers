@@ -255,7 +255,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1943031281152379277}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -18.62, y: 0, z: -11.33}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -309,18 +309,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   atk: 5
   def: 0
-  maxHp: 0
+  maxHp: 100
   hp: 100
   tankHead: {fileID: 0}
   moveSpeed: 10
   roundSpeed: 100
   headRandSpeed: 100
-  deadEff: {fileID: 0}
+  deadEff: {fileID: 8063052567315183662, guid: 2b3e21adab0693c41b3cff282d5fad7f, type: 3}
   fireOffsetTime: 2
   shootPos:
   - {fileID: 1943031281152079323}
   - {fileID: 1943031281152151999}
   bulletObj: {fileID: 4559960731174322708, guid: 9883037658fbeb84bb971bdd81fcb57d, type: 3}
+  attackRange: 10
+  hpBarPrefab: {fileID: 8016373538912202917, guid: 1f3c4150c4f57da4b9cc3b6db8f61232, type: 3}
 --- !u!1 &1943031281152393115
 GameObject:
   m_ObjectHideFlags: 0

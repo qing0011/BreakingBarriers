@@ -29,6 +29,10 @@ public class GameDataMgr
 
     public List<SceneData> sceneDataList;
 
+    //怪物
+
+    public List<MonsterData> monsterDataList;
+
     //需要重置的数据
     public int maxHP = 100;
     public int playerHP;
@@ -52,6 +56,9 @@ public class GameDataMgr
         rankData = JsonMgr.Instance.LoadData<RankList>("Rank");
 
         sceneDataList = JsonMgr.Instance.LoadData<List<SceneData>>("SceneData");
+
+        //怪物
+        monsterDataList = JsonMgr.Instance.LoadData<List<MonsterData>>("MonsterData");
 
         //签到
         signInInfoList = JsonMgr.Instance.LoadData<List<SignInInfo>>("SignInInfo");
@@ -205,5 +212,17 @@ public class GameDataMgr
     {
         scoreData.haveScore = 0;
         SaveScoreData();
+    }
+
+
+    //怪物数据
+    public MonsterData GetMonsterData(int monsterId)
+    {
+        foreach (MonsterData data in monsterDataList)
+        {
+            if (data.id == monsterId)
+                return data;
+        }
+        return null;
     }
 }

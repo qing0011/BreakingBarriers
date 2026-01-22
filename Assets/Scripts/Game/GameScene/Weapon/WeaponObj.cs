@@ -8,9 +8,26 @@ public class WeaponObj : MonoBehaviour
     public Transform[] shootObj;//外部决定有几个发射位置
     public TankBaseObj fatherObj;//武器拥有者
 
+    [Header("射击参数")]
+    public float fireInterval = 0.2f;    // 两次射击间隔（秒）
 
- public void Fire()
+    private float fireTimer = 0f;
+
+    private void Update()
     {
+        fireTimer += Time.deltaTime;
+    }
+
+
+
+    public void Fire()
+    {
+        // 射速限制
+        if (fireTimer < fireInterval)
+            return;
+
+        fireTimer = 0f;
+
         //根据位置创建相应的子弹
         for (int i = 0; i < shootObj.Length; i++)
         {

@@ -13,32 +13,37 @@ public class PlayerObj : TankBaseObj
     void Update()
     {
         //1，ws控制前进后退
-        //知识点
+
         //1，transform位移
         //2，Input轴向输入检测
-        this.transform.Translate(Input.GetAxis("Vertical") * Vector3.forward * moveSpeed * Time.deltaTime);
-
+        float v = Input.GetAxis("Vertical");
+        this.transform.Translate(v* Vector3.forward * moveSpeed * Time.deltaTime);
+        // 只要 WS 被按住，就尝试开火
+        if (Mathf.Abs(v) > 0.01f)
+        {
+            Fire();
+        }
         //2，ad控制旋转
-        //知识点
+
         //1，transform旋转
         //2，Input轴向输入检测
         this.transform.Rotate(Input.GetAxis("Horizontal") *Vector3.up *roundSpeed* Time.deltaTime);
 
         //鼠标左右移动 控制炮台旋转
-        //知识点
+    
         //1，transform旋转
         //2，Input鼠标轴向输入检测
         this.transform.Rotate(Input.GetAxis("Mouse X") * Vector3.up * headRandSpeed * Time.deltaTime);
         //4，开火 Input
-        if (Input.GetMouseButtonDown(0))
+        if (Mathf.Abs(v) > 0.01f || Input.GetMouseButton(0))
         {
             Fire();
         }
         //特殊处理，，，重写父类行为
-   
-    //死亡
 
-    //受伤
+        //死亡
+
+        //受伤
     }
     public override void Fire()
     {
@@ -77,9 +82,6 @@ public class PlayerObj : TankBaseObj
             //更新主面板血条
             gamePanel.UpdateHP(this.maxHp, this.hp);
         }
-    
-
-    
     }
     public void ChangeWeapon(GameObject weapon)
     {
