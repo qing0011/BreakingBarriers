@@ -297,6 +297,19 @@ public class GameLevelMgr : MonoBehaviour
         PlayerObj player = playerObj.GetComponent<PlayerObj>();
         player.ApplyRuntimeData();
 
+
+        // 告诉摄像机：目标是谁
+        CameraMove cam = Camera.main.GetComponent<CameraMove>();
+        if (cam != null)
+        {
+            cam.SetTarget(player.transform);
+        }
+        else
+        {
+            Debug.LogError("Main Camera 上没有 CameraMove 组件！");
+        }
+
+
         //  延迟恢复
         StartCoroutine(RestoreWeaponNextFrame(player));
     }
