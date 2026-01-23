@@ -367,7 +367,7 @@ MonoBehaviour:
   maxHp: 20
   hp: 20
   tankHead: {fileID: 5948716135330352964}
-  moveSpeed: 10
+  moveSpeed: 5
   roundSpeed: 100
   headRandSpeed: 100
   deadEff: {fileID: 0}

@@ -11,7 +11,7 @@ public class MonsterObj : TankBaseObj
     //随机点
     public Transform[] randomPos;
     //朝向的目标
-    public Transform lookAtTarget;
+    private Transform lookAtTarget;
 
 
     //开火距离
@@ -58,31 +58,65 @@ public class MonsterObj : TankBaseObj
     // Update is called once per frame
     void Update()
     {
-
-
-        // ========= 巡逻移动（必须先判空） =========
-        if (targetPos != null)
+        // ========= 动态寻找玩家 =========
+        if (lookAtTarget == null)
         {
-            transform.LookAt(targetPos);
-            transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
-
-            if (Vector3.Distance(transform.position, targetPos.position) < 0.05f)
-            {
-                RandomPos();
-            }
+            FindPlayer();
         }
 
-        // ========= 攻击逻辑 =========
+        // ========= 巡逻移动（必须先判空） =========
+
+        // 决定朝向的目标
+        Transform currentLookTarget = null;
+
         if (lookAtTarget != null)
         {
-            if (Vector3.Distance(transform.position, lookAtTarget.position) <= fireDis)
+            float dis = Vector3.Distance(transform.position, lookAtTarget.position);
+            if (dis <= fireDis)
             {
+                currentLookTarget = lookAtTarget;
+
                 nowTime += Time.deltaTime;
                 if (nowTime >= fireOffsetTime)
                 {
                     Fire();
                     nowTime = 0;
                 }
+            }
+            else
+            {
+                // 追逐玩家时，也应该朝玩家看
+                currentLookTarget = lookAtTarget;
+            }
+        }
+
+        // 如果没有玩家目标，看巡逻点
+        if (currentLookTarget == null && targetPos != null)
+        {
+            currentLookTarget = targetPos;
+        }
+
+        // 统一朝向处理
+        if (currentLookTarget != null)
+        {
+            // 只改变Y轴旋转，保持怪物在地面上
+            Vector3 targetPosition = new Vector3(
+                currentLookTarget.position.x,
+                transform.position.y-0.2f,//玩家的Y轴向下移动因为玩家缩小一倍/////////////////////////重点回头可能还会修改/////////
+                currentLookTarget.position.z
+            );
+            transform.LookAt(targetPosition);
+        }
+
+        // 移动逻辑（只有巡逻时才移动）
+        if (lookAtTarget == null && targetPos != null)
+        {
+            // 使用本地坐标移动
+            transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime, Space.Self);
+
+            if (Vector3.Distance(transform.position, targetPos.position) < 0.5f)
+            {
+                RandomPos();
             }
         }
 
@@ -100,6 +134,17 @@ public class MonsterObj : TankBaseObj
 
 
     }
+
+    void FindPlayer()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            lookAtTarget = player.transform;
+        }
+    }
+
+
 
     void CreateHpBar()
     {
@@ -150,7 +195,8 @@ public class MonsterObj : TankBaseObj
     }
     public override void Fire()
     {
-       for(int i = 0; i < shootPos.Length; i++)
+        
+        for (int i = 0; i < shootPos.Length; i++)
         {
             GameObject obj = Instantiate(bulletObj, shootPos[i].position, shootPos[i].rotation);
             //设置子弹拥有着

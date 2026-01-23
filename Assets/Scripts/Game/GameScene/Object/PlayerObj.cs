@@ -75,12 +75,42 @@ public class PlayerObj : TankBaseObj
     {
         base.Wound(other);
 
-        // 获取GamePanel实例
-        GamePanel gamePanel = FindObjectOfType<GamePanel>();
-        if (gamePanel != null)
+        int dmg = other.atk - this.def;
+        Debug.Log($"计算伤害: {other.atk} - {this.def} = {dmg}");
+
+        // 伤害<=0的特殊情况：立即死亡（比如秒杀技能）
+        if (dmg <= 0)
         {
-            //更新主面板血条
-            gamePanel.UpdateHP(this.maxHp, this.hp);
+            Debug.LogWarning($"伤害为{dmg}，触发即死效果！");
+            this.hp = 0; // 关键：先把HP设为0
+            this.Dead(); // 然后死亡
+
+            // 更新UI
+            GamePanel gamePanel = FindObjectOfType<GamePanel>();
+            if (gamePanel != null)
+            {
+                gamePanel.UpdateHP(this.maxHp, this.hp);
+            }
+            return; // 直接返回，不执行后面的代码
+        }
+
+        // 正常伤害处理
+        int beforeHP = this.hp;
+        this.hp -= dmg;
+        Debug.Log($"受伤: {beforeHP} -> {this.hp} (-{dmg})");
+
+        if (this.hp <= 0)
+        {
+            this.hp = 0;
+            Debug.Log("玩家死亡!");
+            this.Dead();
+        }
+
+        // 更新UI
+        GamePanel gamePanel2 = FindObjectOfType<GamePanel>();
+        if (gamePanel2 != null)
+        {
+            gamePanel2.UpdateHP(this.maxHp, this.hp);
         }
     }
     public void OnPickWeapon(int weaponId)
@@ -149,7 +179,7 @@ public class PlayerObj : TankBaseObj
         // 写入持久数据（这是继承的根）
         GameDataMgr.Instance.playerData.weaponId = weaponId;
         // 换枪时，直接补满子弹
-        GameDataMgr.Instance.playerData.bulletCount = 99;
+        GameDataMgr.Instance.playerData.bulletCount = 9999;
         //  立刻装备
         ChangeWeaponById(weaponId);
 

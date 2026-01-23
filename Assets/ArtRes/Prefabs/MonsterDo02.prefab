@@ -143,14 +143,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1848318632342788860}
-  m_LocalRotation: {x: 0.03403062, y: -0, z: -0, w: 0.99942076}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.009, y: -0.036, z: 0.708}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3455801382596873189}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 3.9, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2200117289001461808
 GameObject:
   m_ObjectHideFlags: 0
@@ -373,15 +373,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5750567870909458025}
-  m_LocalRotation: {x: -0.12186928, y: 0, z: 0, w: 0.9925462}
-  m_LocalPosition: {x: 0, y: 0.27, z: 0.1}
+  m_LocalRotation: {x: 0.027375119, y: -0, z: -0, w: 0.99962527}
+  m_LocalPosition: {x: -0.00000006454138, y: 0.26999998, z: 0.099999785}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1848318632342788863}
   m_Father: {fileID: 209072194823008351}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -14, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 3.137, y: 0, z: 0}
 --- !u!1 &6743454511633542691
 GameObject:
   m_ObjectHideFlags: 0
@@ -476,12 +476,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6743454511633542691}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2dd1a92557f864c4aa751870ee4fe8d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotateSpeed: 3
+  rotateSpeed: 1
 --- !u!1 &7655658640902049827
 GameObject:
   m_ObjectHideFlags: 0
@@ -528,8 +528,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.535868, y: 1.6792824, z: 1.7746913}
-  m_Center: {x: -0.014599264, y: 0.82171905, z: -0.03861296}
+  m_Size: {x: 1.02, y: 0.962872, z: 0.98}
+  m_Center: {x: -0.014599264, y: 0.5, z: -0.03861296}
 --- !u!54 &1869294827598383894
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -572,7 +572,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  lookAtTarget: {fileID: 0}
   fireDis: 10
   fireOffsetTime: 1
   shootPos:
