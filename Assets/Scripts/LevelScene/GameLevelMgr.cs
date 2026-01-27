@@ -50,18 +50,6 @@ public class GameLevelMgr : MonoBehaviour
             return;
         }
 
-       
-
-        //// 单例模式实现
-        //if (Instance != null)
-        //{
-        //    Destroy(gameObject);
-        //    return;
-        //}
-
-        //Instance = this;
-        //// 使对象在场景切换时不被销毁
-        //DontDestroyOnLoad(gameObject);
     }
 
   
@@ -106,6 +94,12 @@ public class GameLevelMgr : MonoBehaviour
         {
             CurrentScore = 0;
         }
+        ////每关开始都重置玩家血量
+        //if (GameDataMgr.Instance.playerData != null)
+        //{
+        //    GameDataMgr.Instance.playerData.hp = GameDataMgr.Instance.playerData.maxHp;
+        //    Debug.Log($"第{levelId}关开始，玩家血量重置为：{GameDataMgr.Instance.playerData.hp}");
+        //}
         // 初始化游戏状态
         remainTime = data.timeLimit;  // 从数据中获取时间限制
         isRunning = true;
@@ -124,11 +118,12 @@ public class GameLevelMgr : MonoBehaviour
             // 面板获取失败，返回
             return;
         }
-
+       
         // 初始化UI显示
         panel.SetTime(remainTime);
         panel.SetScore(CurrentScore);
-
+        // 🔥 关键修改：延迟一帧更新血量UI
+        StartCoroutine(DelayedUpdateHP(panel));
         // 启动计时协程
         if (timeCoroutine != null)
             StopCoroutine(timeCoroutine);
@@ -138,6 +133,20 @@ public class GameLevelMgr : MonoBehaviour
 
     }
 
+    // 延迟更新血量UI
+    private IEnumerator DelayedUpdateHP(GamePanel panel)
+    {
+        yield return null; // 等待一帧，确保玩家对象已创建
+
+        // 从数据层获取最新血量
+        if (GameDataMgr.Instance.playerData != null)
+        {
+            int maxHp = GameDataMgr.Instance.playerData.maxHp;
+            int hp = GameDataMgr.Instance.playerData.hp;
+            panel.UpdateHP(maxHp, hp);
+           // Debug.Log($"延迟更新UI血量：{hp}/{maxHp}");
+        }
+    }
     // 计时协程
     private IEnumerator TimeCounter()
     {
@@ -223,6 +232,7 @@ public class GameLevelMgr : MonoBehaviour
     // 继续下一关
     public void ContinueNextLevel()
     {
+       
         // 计算下一关ID
         int nextId = GameDataMgr.Instance.currentSceneId + 1;
 
@@ -235,10 +245,11 @@ public class GameLevelMgr : MonoBehaviour
             // 没有下一关（可能是最后一关）
             return;
         }
-
+      
         // 加载下一关场景
         SceneManager.LoadScene(nextLevel.sceneName);
     }
+   
 
     // 下一场景加载完成回调（当前未使用）
     private void OnNextSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -295,6 +306,9 @@ public class GameLevelMgr : MonoBehaviour
         );
 
         PlayerObj player = playerObj.GetComponent<PlayerObj>();
+
+        // 确保玩家以满血状态出现
+       // GameDataMgr.Instance.playerData.hp = GameDataMgr.Instance.playerData.maxHp;
         player.ApplyRuntimeData();
 
 
@@ -323,16 +337,16 @@ public class GameLevelMgr : MonoBehaviour
         if (weaponId >= 0)
         {
             player.ChangeWeaponById(weaponId);
-            Debug.Log("【武器继承】已恢复武器 ID：" + weaponId);
+           // Debug.Log("【武器继承】已恢复武器 ID：" + weaponId);
         }
         else
         {
-            Debug.LogWarning("【武器继承】玩家当前没有任何武器");
+           // Debug.LogWarning("【武器继承】玩家当前没有任何武器");
         }
-        Debug.Log("【weaponPos】" + player.weaponPos);
+       // Debug.Log("【weaponPos】" + player.weaponPos);
 
 
-        Debug.Log("【武器检查】nowWeapon = " + (player.nowWeapon == null ? "NULL" : "OK"));
+        //Debug.Log("【武器检查】nowWeapon = " + (player.nowWeapon == null ? "NULL" : "OK"));
     }
 
 

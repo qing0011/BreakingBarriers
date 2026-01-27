@@ -46,7 +46,7 @@ public class MonsterGenerator : MonoBehaviour
                 // 可选：设置怪物父对象为生成点（方便层级管理）
                 monsterObj.transform.parent = spawnPoint;
 
-                Debug.Log($"在 {spawnPoint.name} 生成怪物");
+                //Debug.Log($"在 {spawnPoint.name} 生成怪物");
             }
         }
     }
