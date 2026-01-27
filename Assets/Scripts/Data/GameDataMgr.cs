@@ -102,11 +102,11 @@ public class GameDataMgr
             if (weapon3 != null)
                 weaponPrefabList.Add(weapon3);
 
-            Debug.Log($"【GameDataMgr】武器预制体加载完成，共加载 {weaponPrefabList.Count} 个武器");
+           // Debug.Log($"【GameDataMgr】武器预制体加载完成，共加载 {weaponPrefabList.Count} 个武器");
         }
         catch (System.Exception e)
         {
-            Debug.LogError($"【GameDataMgr】武器预制体加载失败：{e.Message}");
+            //Debug.LogError($"【GameDataMgr】武器预制体加载失败：{e.Message}");
         }
     }
 
@@ -129,11 +129,11 @@ public class GameDataMgr
         playerData.level = levelIndex;
         playerData.attack += 5;
         playerData.defense += 3;
-        playerData.maxHp += 20;
+        playerData.maxHp += 0;
         playerData.hp = playerData.maxHp;
 
         //恢复子弹数量（很容易玩家没有子弹）
-        playerData.bulletCount = 99;
+        playerData.bulletCount = 9999;
     }
 
     /// <summary>
@@ -167,6 +167,17 @@ public class GameDataMgr
     {
         JsonMgr.Instance.SaveData(musicData, "MusicData");
     }
+    public void PlaySound(string resName)
+    {
+        GameObject musicObj = new GameObject();
+        AudioSource a = musicObj.AddComponent<AudioSource>();
+        a.clip = Resources.Load<AudioClip>(resName);
+        a.volume = musicData.soundValue;
+        a.mute = !musicData.soundOpen;
+        a.Play();
+
+        GameObject.Destroy(musicObj, 1);
+    }
     public void AddRankInfo(string name, int score, float time)
     {
         rankData.list.Add(new RankInfo(name, score, time));
@@ -185,17 +196,8 @@ public class GameDataMgr
     {
         //signInInfo.Add(new SignInInfo(id, name));
     }
-    public void PlaySound(string resName)
-    {
-        GameObject musicObj = new GameObject();
-        AudioSource a = musicObj.AddComponent<AudioSource>();
-        a.clip = Resources.Load<AudioClip>(resName);
-        a.volume = musicData.soundValue;
-        a.mute = !musicData.soundOpen;
-        a.Play();
 
-        GameObject.Destroy(musicObj, 1);
-    }
+
 
     /// <summary>
     /// 获取本次继续所需的积分
