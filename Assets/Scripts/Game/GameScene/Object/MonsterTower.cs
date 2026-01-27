@@ -163,8 +163,8 @@ public class MonsterTower : TankBaseObj
     {
         if (hpFill != null)
             hpFill.fillAmount = (float)hp / maxHp;
-        Debug.Log($"HP = {hp} / {maxHp}");
-        Debug.Log(hpFill.name);
+        //Debug.Log($"HP = {hp} / {maxHp}");
+        //Debug.Log(hpFill.name);
 
     }
 

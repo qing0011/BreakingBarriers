@@ -9,7 +9,13 @@ public class PlayerObj : TankBaseObj
     //武器父对象的位置
     public Transform weaponPos;
 
-    // Update is called once per frame
+    private GamePanel cachedGamePanel;
+
+    void Start()
+    {
+        // 缓存UI引用
+        cachedGamePanel = FindObjectOfType<GamePanel>();
+    }
     void Update()
     {
         //1，ws控制前进后退
@@ -75,13 +81,13 @@ public class PlayerObj : TankBaseObj
     {
         base.Wound(other);
 
-        int dmg = other.atk - this.def;
-        Debug.Log($"计算伤害: {other.atk} - {this.def} = {dmg}");
+        int dmg = Mathf.Max(1, other.atk - this.def);
+        //Debug.Log($"计算伤害: {other.atk} - {this.def} = {dmg}");
 
         // 伤害<=0的特殊情况：立即死亡（比如秒杀技能）
         if (dmg <= 0)
         {
-            Debug.LogWarning($"伤害为{dmg}，触发即死效果！");
+           // Debug.LogWarning($"伤害为{dmg}，触发即死效果！");
             this.hp = 0; // 关键：先把HP设为0
             this.Dead(); // 然后死亡
 
@@ -97,12 +103,12 @@ public class PlayerObj : TankBaseObj
         // 正常伤害处理
         int beforeHP = this.hp;
         this.hp -= dmg;
-        Debug.Log($"受伤: {beforeHP} -> {this.hp} (-{dmg})");
+       // Debug.Log($"受伤: {beforeHP} -> {this.hp} (-{dmg})");
 
         if (this.hp <= 0)
         {
             this.hp = 0;
-            Debug.Log("玩家死亡!");
+           // Debug.Log("玩家死亡!");
             this.Dead();
         }
 
@@ -144,7 +150,7 @@ public class PlayerObj : TankBaseObj
         // 关键：写回数据层
         GameDataMgr.Instance.playerData.weaponId = weaponId;
 
-        Debug.Log("【装备武器】weaponId = " + weaponId);
+        //Debug.Log("【装备武器】weaponId = " + weaponId);
 
     }
     public void ChangeWeaponById(int weaponId)
@@ -153,7 +159,7 @@ public class PlayerObj : TankBaseObj
 
         if (weaponId >= GameDataMgr.Instance.weaponPrefabList.Count)
         {
-            Debug.LogError("武器ID越界：" + weaponId);
+           // Debug.LogError("武器ID越界：" + weaponId);
             return;
         }
 
@@ -171,7 +177,7 @@ public class PlayerObj : TankBaseObj
         this.maxHp = data.maxHp;
         this.hp = data.hp;
 
-        Debug.Log($"【玩家同步】攻击={atk} 防御={def} HP={hp}/{maxHp}");
+       // Debug.Log($"【玩家同步】攻击={atk} 防御={def} HP={hp}/{maxHp}");
     }
 
     public void PickWeapon(int weaponId)
@@ -183,7 +189,7 @@ public class PlayerObj : TankBaseObj
         //  立刻装备
         ChangeWeaponById(weaponId);
 
-        Debug.Log("【拾取武器】weaponId = " + weaponId);
+       // Debug.Log("【拾取武器】weaponId = " + weaponId);
     }
 
 }
