@@ -31,10 +31,18 @@ public class MonsterTower : TankBaseObj
     [Header("血条预制体")]
     public GameObject hpBarPrefab;
 
+    [Header("等级显示")]
+    public int monsterLevel = 1; // 怪物等级
+    public Color safeColor = Color.green; // 等级低于玩家时的颜色
+    public Color dangerColor = Color.red; // 等级高于玩家时的颜色
+
+    private Text levelText; // 等级文本
+
     private Transform hpBarRoot;
     private Image hpFill;
     private float showTime = 0;
-
+   [Header("触发音效")]
+    public AudioClip monsterHitClip;
     private void Start()
     {
         // 初始化寻路组件
@@ -47,10 +55,15 @@ public class MonsterTower : TankBaseObj
         {
             agent.speed = moveSpeed;
         }
+        //等级显示
+        if (hpBarRoot != null)
+            hpBarRoot.gameObject.SetActive(true);
         if (hpBarRoot != null)
             hpBarRoot.gameObject.SetActive(false);
-        CreateHpBar();   // 这一行你漏掉了
+        CreateHpBar();   // 创建血条
+     
         UpdateHpUI();
+      
         // 寻找攻击目标（比如玩家的主塔）
         FindTarget();
     }
@@ -78,14 +91,7 @@ public class MonsterTower : TankBaseObj
     // Update is called once per frame
     void Update()
     {
-        ////累加时间
-        //nowTime += Time.deltaTime;
-        ////时间超过间隔时间就开火
-        //if(nowTime >= fireOffsetTime)
-        //{
-        //    Fire();
-        //    nowTime = 0;
-        //}
+       
         if (isDead) return;
         // 如果找到了目标，检查距离
         if (target != null)
@@ -127,7 +133,7 @@ public class MonsterTower : TankBaseObj
             hpBarRoot.gameObject.SetActive(false);
         }
     }
-
+    // 创建血条UI
     void CreateHpBar()
     {
         if (hpBarPrefab == null) return;
@@ -139,7 +145,7 @@ public class MonsterTower : TankBaseObj
         HpBar bar = hpObj.GetComponent<HpBar>();
         if (bar == null || bar.fill == null)
         {
-            Debug.LogError(" HpBar 组件或 fill 未绑定！");
+           // Debug.LogError(" HpBar 组件或 fill 未绑定！");
             return;
         }
         hpFill = bar.fill;
@@ -159,6 +165,7 @@ public class MonsterTower : TankBaseObj
         //showTime = 999f; // 防止被 Update 隐藏
         UpdateHpUI();
     }
+
     void UpdateHpUI()
     {
         if (hpFill != null)
@@ -167,6 +174,7 @@ public class MonsterTower : TankBaseObj
         //Debug.Log(hpFill.name);
 
     }
+
 
     public override void Fire()
     {
@@ -204,7 +212,7 @@ public class MonsterTower : TankBaseObj
         if (hpBarRoot != null)
             hpBarRoot.gameObject.SetActive(true);
         UpdateHpUI();
-        Debug.Log($"怪物受伤：{dmg}，当前HP：{hp}/{maxHp}");
+       // Debug.Log($"怪物受伤：{dmg}，当前HP：{hp}/{maxHp}");
     }
 
     // 修改 Dead 方法
@@ -217,10 +225,16 @@ public class MonsterTower : TankBaseObj
         if (agent != null)
             agent.isStopped = true;
 
-        // 播放死亡动画
+      
        
 
      
+
+
+        // 播放死亡动画
+
+
+
 
         // 等待动画播放后销毁
         StartCoroutine(DestroyAfterAnimation());
@@ -237,6 +251,10 @@ public class MonsterTower : TankBaseObj
             Instantiate(deadEff, transform.position, transform.rotation);
         }
 
+        else if (monsterHitClip != null)
+        {
+            GameDataMgr.Instance.PlaySound(monsterHitClip);
+        }
         // 销毁对象
         Destroy(gameObject);
     }
@@ -247,4 +265,6 @@ public class MonsterTower : TankBaseObj
         // 如果需要在动画特定帧触发攻击逻辑
         // 这里可以调用 Fire() 方法
     }
+
+
 }

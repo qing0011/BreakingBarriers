@@ -18,7 +18,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8659049905502647942
 Transform:
@@ -27,14 +27,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8313909544244554812}
-  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 3.9, y: 0.026, z: -1.14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!33 &5729981254763444515
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -116,3 +116,4 @@ MonoBehaviour:
   - {fileID: 6944777852539437686, guid: 85299e538e225b948ab13ad5541957ff, type: 3}
   - {fileID: 5536716353198649738, guid: 40cd53d5571e7534aad53a68146f06f4, type: 3}
   deadEff: {fileID: 3591201399887180039, guid: 38cae1ff53bf7e741b66ea136edbf388, type: 3}
+  hitClip: {fileID: 8300000, guid: a2287502aaf0e5645a44e456f434b8fe, type: 3}

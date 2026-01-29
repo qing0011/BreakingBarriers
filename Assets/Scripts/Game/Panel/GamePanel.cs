@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+
 public class GamePanel : BasePanel
 {
     public TMP_Text labScore;
@@ -14,9 +15,6 @@ public class GamePanel : BasePanel
 
     public TMP_Text hpText;   // HP 数值文字
     public Image hpFill;      // 血条填充
-
-   
-
 
     public float hpw = 350;
     private int time;
@@ -50,25 +48,18 @@ public class GamePanel : BasePanel
 
        
     }
-
-
-
-
     // ====== 对外接口 ======
-
     public void SetScore(int score)
     {
         
         labScore.text = score.ToString();
         GameDataMgr.Instance.labScore = score;
     }
-
     public void SetTime(int seconds)
     {
         time = seconds;
         UpdateTimeDisplay();
     }
-
     // ====== UI 内部 ======
     // 更新时间显示
     private void UpdateTimeDisplay()
@@ -84,9 +75,6 @@ public class GamePanel : BasePanel
         }
         labTime.text += time % 60 + "S";
     }
-
-
-
     // 更新血条
     public void UpdateHP(int maxHP, int HP)
     {
@@ -99,5 +87,6 @@ public class GamePanel : BasePanel
 
 
     }
+
 
 }

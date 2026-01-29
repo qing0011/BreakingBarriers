@@ -158,3 +158,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponIds: 000000000100000002000000
   getEff: {fileID: 4520653749107966726, guid: bc58066346bb4874984f49d359ad1f45, type: 3}
+  hitClip: {fileID: 8300000, guid: c036ceaab07085746baead4dac21cc83, type: 3}

@@ -88,26 +88,20 @@ public class GameDataMgr
         }
 
         // 初始化武器预制体列表
-        try
-        {
+       
             // 加载所有武器预制体
             GameObject weapon1 = Resources.Load<GameObject>("Weapon/Weapon1");
             GameObject weapon2 = Resources.Load<GameObject>("Weapon/Weapon2");
-            GameObject weapon3 = Resources.Load<GameObject>("Weapon/Weapon3");
+           // GameObject weapon3 = Resources.Load<GameObject>("Weapon/Weapon3");
 
             if (weapon1 != null)
                 weaponPrefabList.Add(weapon1);
             if (weapon2 != null)
                 weaponPrefabList.Add(weapon2);
-            if (weapon3 != null)
-                weaponPrefabList.Add(weapon3);
+            //if (weapon3 != null)
+            //    weaponPrefabList.Add(weapon3);
 
-           // Debug.Log($"【GameDataMgr】武器预制体加载完成，共加载 {weaponPrefabList.Count} 个武器");
-        }
-        catch (System.Exception e)
-        {
-            //Debug.LogError($"【GameDataMgr】武器预制体加载失败：{e.Message}");
-        }
+         
     }
 
 
@@ -167,16 +161,19 @@ public class GameDataMgr
     {
         JsonMgr.Instance.SaveData(musicData, "MusicData");
     }
-    public void PlaySound(string resName)
+    public void PlaySound(AudioClip clip)
     {
-        GameObject musicObj = new GameObject();
-        AudioSource a = musicObj.AddComponent<AudioSource>();
-        a.clip = Resources.Load<AudioClip>(resName);
+        if (!musicData.soundOpen || clip == null) return;
+
+        GameObject obj = new GameObject("Sound_" + clip.name);
+        AudioSource a = obj.AddComponent<AudioSource>();
+
+        a.clip = clip;
         a.volume = musicData.soundValue;
-        a.mute = !musicData.soundOpen;
+        a.spatialBlend = 0f;
         a.Play();
 
-        GameObject.Destroy(musicObj, 1);
+        GameObject.Destroy(obj, clip.length);
     }
     public void AddRankInfo(string name, int score, float time)
     {

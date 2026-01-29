@@ -37,7 +37,8 @@ public class MonsterObj : TankBaseObj
     private Image hpFill;
 
 
-
+    [Header("触发音效")]
+    public AudioClip monshitClip;
 
     void Start()
     {
@@ -206,6 +207,10 @@ public class MonsterObj : TankBaseObj
     }
     public override void Dead()
     {
+        if (monshitClip != null)
+        {
+            GameDataMgr.Instance.PlaySound(monshitClip);
+        }
         ///上面是通过GamePanel的单例模式去获得的。。下面这个用UIManager去获得的。
         ///只是获得的方式不一样，写法出了问题
 
@@ -213,7 +218,9 @@ public class MonsterObj : TankBaseObj
             hpBarRoot.gameObject.SetActive(false);
 
         GameLevelMgr.Instance.AddScore(10);
+
         base.Dead();
+
     }
 
     public override void Wound(TankBaseObj other)

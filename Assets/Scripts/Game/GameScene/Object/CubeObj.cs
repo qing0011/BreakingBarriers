@@ -8,6 +8,9 @@ public class CubeObj : MonoBehaviour
     public GameObject[] rewardObject;
     //死亡特效预制体关联
     public GameObject deadEff;
+
+    [Header("触发音效")]
+    public AudioClip hitClip;
     private void OnTriggerEnter(Collider other)
     {
 
@@ -23,9 +26,14 @@ public class CubeObj : MonoBehaviour
         }
         //创建特效预制体
         GameObject effObj = Instantiate(deadEff, this.transform.position, this.transform.rotation);
-        AudioSource audioS = effObj.GetComponent<AudioSource>();
-        audioS.volume = GameDataMgr.Instance.musicData.soundValue;
-        audioS.mute = !GameDataMgr.Instance.musicData.soundOpen;
+        if (hitClip != null)
+        {
+            GameDataMgr.Instance.PlaySound(hitClip);
+        }
+
+        //AudioSource audioS = effObj.GetComponent<AudioSource>();
+        //audioS.volume = GameDataMgr.Instance.musicData.soundValue;
+        //audioS.mute = !GameDataMgr.Instance.musicData.soundOpen;
 
         Destroy(this.gameObject);
 

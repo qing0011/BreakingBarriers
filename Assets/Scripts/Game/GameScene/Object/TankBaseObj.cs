@@ -18,10 +18,16 @@ public abstract class TankBaseObj : MonoBehaviour
     //死亡特效
     public GameObject deadEff;
 
+    [Header("触发音效")]
+    protected AudioClip hitClip;  // 改为 protected，让子类可以访问
+
+
     //三个共用方法，写在共用类里:开火，受伤，死亡
 
     //用抽象方法写开火。（子类重写方法即可。因为每个开火的逻辑不同）
     public abstract void Fire();
+
+
 
     //虚函数写受伤和死亡。因为需要有同样的逻辑主体
 
@@ -52,14 +58,19 @@ public abstract class TankBaseObj : MonoBehaviour
         {
             //死亡对象的位置
             GameObject effObj = Instantiate(deadEff,this.transform.position,this.transform.rotation);
-           //音效定位在特效身上，需要设置特效的位置大小
-            AudioSource audioSource = effObj.GetComponent<AudioSource>();
-            //音效大小设置
-            audioSource.volume = GameDataMgr.Instance.musicData.soundValue;
-            //音效是否播放设置
-            audioSource.mute = !GameDataMgr.Instance.musicData.soundOpen;
 
-            audioSource.Play();
+            if (hitClip != null)
+            {
+                GameDataMgr.Instance.PlaySound(hitClip);
+            }
+            ////音效定位在特效身上，需要设置特效的位置大小
+            //AudioSource audioSource = effObj.GetComponent<AudioSource>();
+            ////音效大小设置
+            //audioSource.volume = GameDataMgr.Instance.musicData.soundValue;
+            ////音效是否播放设置
+            //audioSource.mute = !GameDataMgr.Instance.musicData.soundOpen;
+
+           // audioSource.Play();
         }
     }
 }

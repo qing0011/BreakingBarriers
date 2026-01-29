@@ -19,7 +19,7 @@ public class WeaponObj : MonoBehaviour
     }
 
     //很容易造成玩家没有子弹
-    private float lastFireTime = -99f;
+    private float lastFireTime = -9999f;
 
     public void Fire()
     {

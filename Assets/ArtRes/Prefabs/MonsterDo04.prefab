@@ -544,3 +544,4 @@ MonoBehaviour:
   - {fileID: 1885106637530070145}
   bulletObj: {fileID: 4559960731174322708, guid: 9883037658fbeb84bb971bdd81fcb57d, type: 3}
   hpBarPrefab: {fileID: 8016373538912202917, guid: 730ad9ef04ba9154180ec521c494d398, type: 3}
+  monshitClip: {fileID: 8300000, guid: d31724c77602b86478d47611b740a275, type: 3}

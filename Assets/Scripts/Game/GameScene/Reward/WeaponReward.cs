@@ -6,7 +6,8 @@ public class WeaponReward : MonoBehaviour
 {
     public int[] weaponIds;
     public GameObject getEff;
-
+    [Header("¥•∑¢“Ù–ß")]
+    public AudioClip hitClip;
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
@@ -30,12 +31,17 @@ public class WeaponReward : MonoBehaviour
         if (getEff != null)
         {
             GameObject eff = Instantiate(getEff, transform.position, transform.rotation);
-            AudioSource audioS = eff.GetComponent<AudioSource>();
-            if (audioS != null)
+            //GameDataMgr.Instance.PlaySound("Sound/Collect01");
+            if (hitClip != null)
             {
-                audioS.volume = GameDataMgr.Instance.musicData.soundValue;
-                audioS.mute = !GameDataMgr.Instance.musicData.soundOpen;
+                GameDataMgr.Instance.PlaySound(hitClip);
             }
+            //AudioSource audioS = eff.GetComponent<AudioSource>();
+            //if (audioS != null)
+            //{
+            //    audioS.volume = GameDataMgr.Instance.musicData.soundValue;
+            //    audioS.mute = !GameDataMgr.Instance.musicData.soundOpen;
+            //}
         }
 
         Destroy(gameObject);

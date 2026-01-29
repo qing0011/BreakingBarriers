@@ -159,3 +159,4 @@ MonoBehaviour:
   type: 0
   changeValue: 2
   getEff: {fileID: 4520653749107966726, guid: bc58066346bb4874984f49d359ad1f45, type: 3}
+  hitClip: {fileID: 8300000, guid: c036ceaab07085746baead4dac21cc83, type: 3}

@@ -9840,7 +9840,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2933923291472221391}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 667b340e93d22ea4c80ebce683a4af5c, type: 3}
@@ -9941,3 +9941,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4adc324d385bf174098f0eec95ce14d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  time: 2

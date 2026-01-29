@@ -303,13 +303,13 @@ MonoBehaviour:
   randomPos:
   - {fileID: 0}
   - {fileID: 0}
-  lookAtTarget: {fileID: 0}
   fireDis: 10
   fireOffsetTime: 1
   shootPos:
   - {fileID: 5576963503354206804}
   bulletObj: {fileID: 4559960731174322708, guid: 9883037658fbeb84bb971bdd81fcb57d, type: 3}
   hpBarPrefab: {fileID: 8016373538912202917, guid: 730ad9ef04ba9154180ec521c494d398, type: 3}
+  hitClip: {fileID: 8300000, guid: 7851cc525fd37e94eba400a70032c6de, type: 3}
 --- !u!1 &5017073799674813958
 GameObject:
   m_ObjectHideFlags: 0

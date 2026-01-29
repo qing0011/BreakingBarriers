@@ -558,7 +558,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8b88b7c5b72de343860923146b33423, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  atk: 2
+  atk: 10
   def: 1
   maxHp: 100
   hp: 100
@@ -578,3 +578,4 @@ MonoBehaviour:
   - {fileID: 1848318632342788863}
   bulletObj: {fileID: 4559960731174322708, guid: 9883037658fbeb84bb971bdd81fcb57d, type: 3}
   hpBarPrefab: {fileID: 8016373538912202917, guid: 730ad9ef04ba9154180ec521c494d398, type: 3}
+  monshitClip: {fileID: 8300000, guid: 9ca0f121e85b2164aae5d272daab7429, type: 3}

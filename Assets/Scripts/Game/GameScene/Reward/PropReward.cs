@@ -17,6 +17,8 @@ public class PropReward : MonoBehaviour
     public int changeValue = 2;
     //音效
     public GameObject getEff;
+    [Header("触发音效")]
+    public AudioClip hitClip;
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -50,9 +52,14 @@ public class PropReward : MonoBehaviour
         //播放奖励特效
         GameObject eff = Instantiate(getEff, this.transform.position, this.transform.rotation);
         //控制及获取音效
-        AudioSource audioS = eff.GetComponent<AudioSource>();
-        audioS.volume = GameDataMgr.Instance.musicData.soundValue;
-        audioS.mute = !GameDataMgr.Instance.musicData.soundOpen;
+        //GameDataMgr.Instance.PlaySound("Sound/Collect01");
+        if (hitClip != null)
+        {
+            GameDataMgr.Instance.PlaySound(hitClip);
+        }
+        //AudioSource audioS = eff.GetComponent<AudioSource>();
+        //audioS.volume = GameDataMgr.Instance.musicData.soundValue;
+        //audioS.mute = !GameDataMgr.Instance.musicData.soundOpen;
         Destroy(this.gameObject);
     }
     

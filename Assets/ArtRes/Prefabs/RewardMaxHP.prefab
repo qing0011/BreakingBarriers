@@ -62,6 +62,7 @@ MonoBehaviour:
   type: 2
   changeValue: 2
   getEff: {fileID: 4740283885249579181, guid: f23c7a0c6ff12db45a327f8ff1dcbc1a, type: 3}
+  hitClip: {fileID: 8300000, guid: c036ceaab07085746baead4dac21cc83, type: 3}
 --- !u!1 &4968390450113922950
 GameObject:
   m_ObjectHideFlags: 0

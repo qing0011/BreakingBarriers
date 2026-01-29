@@ -351,4 +351,8 @@ public class GameLevelMgr : MonoBehaviour
 
 
     #endregion
+    public void GetPlayerLevel(PlayerObj player)
+    {
+
+    }
 }

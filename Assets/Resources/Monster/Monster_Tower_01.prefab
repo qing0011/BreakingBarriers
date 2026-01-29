@@ -323,6 +323,10 @@ MonoBehaviour:
   bulletObj: {fileID: 4559960731174322708, guid: 9883037658fbeb84bb971bdd81fcb57d, type: 3}
   attackRange: 10
   hpBarPrefab: {fileID: 8016373538912202917, guid: 1f3c4150c4f57da4b9cc3b6db8f61232, type: 3}
+  monsterLevel: 1
+  safeColor: {r: 0, g: 1, b: 0, a: 1}
+  dangerColor: {r: 1, g: 0, b: 0, a: 1}
+  monsterHitClip: {fileID: 8300000, guid: 9ca0f121e85b2164aae5d272daab7429, type: 3}
 --- !u!1 &1943031281152393115
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,7 +7,7 @@ public class BulletObj : MonoBehaviour
     public float moveSpeed = 50;//移动速度
     public TankBaseObj fatherObj;//发射父物体
     public GameObject effObj;//特效对象
-
+    public AudioClip hitClip;
     // Update is called once per frame
     void Update()
     {
@@ -36,9 +36,13 @@ public class BulletObj : MonoBehaviour
             //挡子弹销毁时，创建一个爆炸特效
             GameObject eff = Instantiate(effObj, this.transform.position, this.transform.rotation);
             //修改音效的音量和开启状态
-            AudioSource audios = eff.GetComponent<AudioSource>();
-            audios.volume = GameDataMgr.Instance.musicData.soundValue;
-            audios.mute = GameDataMgr.Instance.musicData.soundOpen;
+
+            //播放“本物体专属音效”
+            if (hitClip != null)
+            {
+                GameDataMgr.Instance.PlaySound(hitClip);
+            }
+
         }
         Destroy(this.gameObject);
     }

@@ -81,6 +81,7 @@ MonoBehaviour:
   moveSpeed: 50
   fatherObj: {fileID: 0}
   effObj: {fileID: 2933923291472221391, guid: a6ad9ab94c0a3944cb6ba6fdd40f67a9, type: 3}
+  hitClip: {fileID: 8300000, guid: 9ca0f121e85b2164aae5d272daab7429, type: 3}
 --- !u!82 &5772965516040764319
 AudioSource:
   m_ObjectHideFlags: 0
@@ -88,7 +89,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4559960731174322708}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: e7f567de7f07eb64b91be6490490783f, type: 3}
