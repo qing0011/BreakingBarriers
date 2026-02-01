@@ -19,14 +19,17 @@ public class MonsterTower : TankBaseObj
     //关联子弹
     public GameObject bulletObj;
 
+    private Camera mainCam;
+
 
     //移动相关
-   
+
     public float attackRange = 10f;
     private Transform target; // 攻击目标
     // 状态
     private bool isDead = false;
 
+    public int monsterTowerScore = 20;
 
     [Header("血条预制体")]
     public GameObject hpBarPrefab;
@@ -49,17 +52,14 @@ public class MonsterTower : TankBaseObj
         agent = GetComponent<NavMeshAgent>();
         //hpFill = hpObj.transform.Find("Fill").GetComponent<Image>();
 
+        mainCam = Camera.main;
 
         // 设置寻路参数
         if (agent != null)
         {
             agent.speed = moveSpeed;
         }
-        //等级显示
-        if (hpBarRoot != null)
-            hpBarRoot.gameObject.SetActive(true);
-        if (hpBarRoot != null)
-            hpBarRoot.gameObject.SetActive(false);
+      
         CreateHpBar();   // 创建血条
      
         UpdateHpUI();
@@ -84,15 +84,23 @@ public class MonsterTower : TankBaseObj
     }
     void LateUpdate()
     {
-        if (hpBarRoot == null) return;
+        //if (hpBarRoot == null) return;
 
-        hpBarRoot.forward = Camera.main.transform.forward;
+        //hpBarRoot.forward = Camera.main.transform.forward;
+        if (hpBarRoot == null || mainCam == null) return;
+        hpBarRoot.forward = mainCam.transform.forward;
+
     }
     // Update is called once per frame
     void Update()
     {
        
         if (isDead) return;
+        if (target == null)
+        {
+            FindTarget();
+            return;
+        }
         // 如果找到了目标，检查距离
         if (target != null)
         {
@@ -118,6 +126,7 @@ public class MonsterTower : TankBaseObj
                 // 继续移动
                 if (agent != null && !agent.isStopped)
                 {
+                    agent.isStopped = false;
                     agent.SetDestination(target.position);
                 }
             }
@@ -225,10 +234,15 @@ public class MonsterTower : TankBaseObj
         if (agent != null)
             agent.isStopped = true;
 
-      
-       
+        // 获取分数值（根据你的怪物数据）
+        int scoreValue = monsterTowerScore;
 
-     
+        GamePanel gamePanel = UIManager.Instance.GetPanel<GamePanel>();
+        if (gamePanel != null)
+        {
+            gamePanel.CreateScoreEffect(transform.position, scoreValue);
+        }
+
 
 
         // 播放死亡动画
@@ -251,7 +265,7 @@ public class MonsterTower : TankBaseObj
             Instantiate(deadEff, transform.position, transform.rotation);
         }
 
-        else if (monsterHitClip != null)
+        if (monsterHitClip != null)
         {
             GameDataMgr.Instance.PlaySound(monsterHitClip);
         }

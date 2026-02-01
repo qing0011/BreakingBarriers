@@ -32,6 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8878477018896026446}
+  - {fileID: 1059297273108450861}
   m_Father: {fileID: 3160704113412089469}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -215,6 +216,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &4120381494376364740
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1059297273108450861}
+  m_Layer: 0
+  m_Name: RootHp
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1059297273108450861
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4120381494376364740}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.741, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6207386144639807732}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4538935982021677192
 GameObject:
   m_ObjectHideFlags: 0
@@ -308,8 +340,9 @@ MonoBehaviour:
   shootPos:
   - {fileID: 5576963503354206804}
   bulletObj: {fileID: 4559960731174322708, guid: 9883037658fbeb84bb971bdd81fcb57d, type: 3}
+  monsterScore: 10
   hpBarPrefab: {fileID: 8016373538912202917, guid: 730ad9ef04ba9154180ec521c494d398, type: 3}
-  hitClip: {fileID: 8300000, guid: 7851cc525fd37e94eba400a70032c6de, type: 3}
+  monshitClip: {fileID: 0}
 --- !u!1 &5017073799674813958
 GameObject:
   m_ObjectHideFlags: 0

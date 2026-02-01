@@ -21,6 +21,7 @@ public abstract class TankBaseObj : MonoBehaviour
     [Header("触发音效")]
     protected AudioClip hitClip;  // 改为 protected，让子类可以访问
 
+   
 
     //三个共用方法，写在共用类里:开火，受伤，死亡
 

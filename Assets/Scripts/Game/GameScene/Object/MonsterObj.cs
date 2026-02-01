@@ -29,6 +29,7 @@ public class MonsterObj : TankBaseObj
 
     private float showTime = 0;
 
+    public int monsterScore = 10;
 
     [Header("血条预制体")]
     public GameObject hpBarPrefab;
@@ -218,6 +219,18 @@ public class MonsterObj : TankBaseObj
             hpBarRoot.gameObject.SetActive(false);
 
         GameLevelMgr.Instance.AddScore(10);
+
+        // 获取分数值（根据你的怪物数据）
+        int scoreValue = monsterScore;
+
+        GamePanel gamePanel = UIManager.Instance.GetPanel<GamePanel>();
+        if (gamePanel != null)
+        {
+            gamePanel.CreateScoreEffect(transform.position, scoreValue);
+        }
+
+
+
 
         base.Dead();
 
