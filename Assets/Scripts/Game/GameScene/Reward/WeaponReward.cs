@@ -36,12 +36,7 @@ public class WeaponReward : MonoBehaviour
             {
                 GameDataMgr.Instance.PlaySound(hitClip);
             }
-            //AudioSource audioS = eff.GetComponent<AudioSource>();
-            //if (audioS != null)
-            //{
-            //    audioS.volume = GameDataMgr.Instance.musicData.soundValue;
-            //    audioS.mute = !GameDataMgr.Instance.musicData.soundOpen;
-            //}
+            
         }
 
         Destroy(gameObject);
