@@ -21,10 +21,11 @@ public class FailPanel : BasePanel
             GameDataMgr.Instance.TryRefreshTotalScoreData();
             //取消暂停
             Time.timeScale = 1f;
-            
+
             //跳转场景
+            UIManager.Instance.HidePanel<FailPanel>();
             SceneManager.LoadScene("BeginScene");
-            UIManager.Instance.HidePanel<FailPanel>();    
+              
         });
         btnGoOn.onClick.RemoveAllListeners();
         btnGoOn.onClick.AddListener(() =>
@@ -42,16 +43,18 @@ public class FailPanel : BasePanel
             {
                 //提示积分不足
                 Debug.Log("积分不足，无法继续");
-               UIManager.Instance.ShowPanel<TipPanel>();
+                StartCoroutine(ShowTipForSeconds(2f));
+                // UIManager.Instance.ShowPanel<TipPanel>();
             }
-
             Debug.Log("FailPanel Init 被调用");
             txtContinueCost.text ="继续需要：" +GameDataMgr.Instance.GetContinueCost();
-
-
         });
-       
-     
+    }
+    private IEnumerator ShowTipForSeconds(float seconds)
+    {
+        UIManager.Instance.ShowPanel<TipPanel>();
+        yield return new WaitForSecondsRealtime(seconds); // 用Realtime避免受Time.timeScale影响
+        UIManager.Instance.HidePanel<TipPanel>();
     }
     public void SetScore(int score)
     {

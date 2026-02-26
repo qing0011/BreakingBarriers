@@ -19,7 +19,7 @@ public class TipPanel : BasePanel
             UIManager.Instance.HidePanel<TipPanel>();
             Time.timeScale = 0.1f;
 
-            SceneManager.LoadScene("BeginScene");
+           // SceneManager.LoadScene("BeginScene");
         });
     }
 }

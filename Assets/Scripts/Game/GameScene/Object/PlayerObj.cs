@@ -11,6 +11,10 @@ public class PlayerObj : TankBaseObj
 
     private GamePanel cachedGamePanel;
 
+    // 摇杆相关变量（新增）
+    public VariableJoystick variableJoystick;  // 在Inspector中拖入摇杆组件
+    public float joystickSpeed = 10f;          // 摇杆移动速度
+
     void Start()
     {
         // 缓存UI引用
@@ -18,28 +22,19 @@ public class PlayerObj : TankBaseObj
     }
     void Update()
     {
-        //1，ws控制前进后退
-
-        //1，transform位移
-        //2，Input轴向输入检测
+        //1，ws控制前进后退 //1，transform位移 2，Input轴向输入检测
         float v = Input.GetAxis("Vertical");
         this.transform.Translate(v* Vector3.forward * moveSpeed * Time.deltaTime);
-        // 只要 WS 被按住，就尝试开火
-        //if (Mathf.Abs(v) > 0.01f)
-        //{
-        //    Fire();
-        //}
-        //2，ad控制旋转
-
-        //1，transform旋转
-        //2，Input轴向输入检测
+      
+        //2，ad控制旋转 //1，transform旋转//2，Input轴向输入检测
         this.transform.Rotate(Input.GetAxis("Horizontal") *Vector3.up *roundSpeed* Time.deltaTime);
 
-        //鼠标左右移动 控制炮台旋转
-    
-        //1，transform旋转
-        //2，Input鼠标轴向输入检测
+        //鼠标左右移动 控制炮台旋转//1，transform旋转//2，Input鼠标轴向输入检测
         this.transform.Rotate(Input.GetAxis("Mouse X") * Vector3.up * headRandSpeed * Time.deltaTime);
+
+        // 4. 摇杆控制（新增）
+        HandleJoystickInput();
+
         //4，开火 Input
         if (Mathf.Abs(v) > 0.01f || Input.GetMouseButton(0))
         {
@@ -51,6 +46,34 @@ public class PlayerObj : TankBaseObj
 
         //受伤
     }
+    // 摇杆输入处理
+    // 方法3：或者使用类似FPS游戏的双摇杆控制
+    private void HandleJoystickInput()
+    {
+        if (variableJoystick == null) return;
+
+        float joystickVertical = variableJoystick.Vertical;
+        float joystickHorizontal = variableJoystick.Horizontal;
+
+        if (Mathf.Abs(joystickVertical) > 0.1f)
+        {
+            // 前进后退（基于坦克当前朝向）
+            this.transform.Translate(Vector3.forward * joystickVertical * joystickSpeed * Time.deltaTime);
+        }
+
+        if (Mathf.Abs(joystickHorizontal) > 0.1f)
+        {
+            // 左右旋转
+            this.transform.Rotate(joystickHorizontal * Vector3.up * roundSpeed * Time.deltaTime);
+        }
+    }
+    // 检查摇杆是否在移动（新增）
+    private bool IsJoystickMoving()
+    {
+        if (variableJoystick == null) return false;
+        return Mathf.Abs(variableJoystick.Vertical) > 0.1f || Mathf.Abs(variableJoystick.Horizontal) > 0.1f;
+    }
+
     public override void Fire()
     {
         if(nowWeapon != null)
