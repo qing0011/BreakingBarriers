@@ -18,10 +18,12 @@ public class SettingPanel : BasePanel
 
         //初始化开关控制的状态
         togMusic.isOn = data.musicOpen;
-        togSound.isOn = data.musicOpen;
+        togSound.isOn = data.soundOpen;
         //初始化拖动条控制的大小
         //sliderMusic.value = data.musicValue;
         //sliderSound.value = data.soundValue;
+
+
         //关闭按钮
         btnClose.onClick.AddListener(() =>
         {
@@ -62,7 +64,14 @@ public class SettingPanel : BasePanel
 
     }
 
-
+    public override void ShowMe()
+    {
+        base.ShowMe();
+        // 每次显示面板时，重新初始化开关状态，确保与GameDataMgr中的实际状态一致
+        MusicData data = GameDataMgr.Instance.musicData;
+        togMusic.isOn = data.musicOpen;
+        togSound.isOn = data.soundOpen;
+    }
     // 新增方法：同步UI到数据
     private void SyncUIToData()
     {

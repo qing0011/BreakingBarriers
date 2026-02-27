@@ -204,14 +204,10 @@ public class GamePanel : BasePanel
     // ====== 特效到达目标后的处理 ======
     private void OnEffectReachedTarget(int scoreValue, GameObject effect)
     {
-        // 1. 更新分数（使用原有的SetScore方法）
-        int currentScore = GameDataMgr.Instance.labScore + scoreValue;
-        SetScore(currentScore);
-
-        // 2. 播放UI反馈效果
+        // 1. 播放UI反馈效果
         StartCoroutine(PlayScoreUIFeedback());
 
-        // 3. 重置特效并放回对象池
+        // 2. 重置特效并放回对象池
         ResetEffect(effect);
         scoreEffectPool.Enqueue(effect);
     }
