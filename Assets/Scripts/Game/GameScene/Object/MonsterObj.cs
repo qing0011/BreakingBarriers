@@ -218,11 +218,12 @@ public class MonsterObj : TankBaseObj
         if (hpBarRoot != null)
             hpBarRoot.gameObject.SetActive(false);
 
-        GameLevelMgr.Instance.AddScore(10);
+        //GameLevelMgr.Instance.AddScore(10);删掉后面统一处理
 
         // 获取分数值（根据你的怪物数据）
         int scoreValue = monsterScore;
-
+        //在前面加10分后，这里就会特效完了之后再加10分，导致了两个10分的情况发生
+        GameLevelMgr.Instance.AddScore(scoreValue);
         GamePanel gamePanel = UIManager.Instance.GetPanel<GamePanel>();
         if (gamePanel != null)
         {

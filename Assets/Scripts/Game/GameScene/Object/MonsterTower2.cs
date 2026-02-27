@@ -216,7 +216,7 @@ public class MonsterTower2 : TankBaseObj
         if (col != null) col.enabled = false;
         // 获取分数值（根据你的怪物数据）
         int scoreValue = monsterTowerScore;
-
+        GameLevelMgr.Instance.AddScore(scoreValue);
         GamePanel gamePanel = UIManager.Instance.GetPanel<GamePanel>();
         if (gamePanel != null)
         {

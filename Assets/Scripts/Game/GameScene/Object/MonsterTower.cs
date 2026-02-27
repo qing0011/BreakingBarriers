@@ -6,76 +6,76 @@ using UnityEngine.UI;
 
 public class MonsterTower : TankBaseObj
 {
-    // Ñ°Â·×é¼þ
+    // Ñ°Â·ï¿½ï¿½ï¿½
     private NavMeshAgent agent;
 
-    //¹¥»÷Ïà¹Ø
-    //¼ä¸ôÊ±¼ä
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    //ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
     public float fireOffsetTime = 1;
-    //¼ÇÂ¼ÀÛ¼ÓÊ±¼ä£¬¼ÇÂ¼¿ª»ðÅÐ¶Ï
+    //ï¿½ï¿½Â¼ï¿½Û¼ï¿½Ê±ï¿½ä£¬ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½
     private float nowTime = 0;
-    //·¢ÉäÎ»ÖÃ
+    //ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
     public Transform[] shootPos;
-    //¹ØÁª×Óµ¯
+    //ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½
     public GameObject bulletObj;
 
     private Camera mainCam;
 
 
-    //ÒÆ¶¯Ïà¹Ø
+    //ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½
 
     public float attackRange = 10f;
-    private Transform target; // ¹¥»÷Ä¿±ê
+    private Transform target; // ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½
     // ×´Ì¬
     private bool isDead = false;
 
     public int monsterTowerScore = 20;
 
-    [Header("ÑªÌõÔ¤ÖÆÌå")]
+    [Header("Ñªï¿½ï¿½Ô¤ï¿½ï¿½ï¿½ï¿½")]
     public GameObject hpBarPrefab;
 
-    [Header("µÈ¼¶ÏÔÊ¾")]
-    public int monsterLevel = 1; // ¹ÖÎïµÈ¼¶
-    public Color safeColor = Color.green; // µÈ¼¶µÍÓÚÍæ¼ÒÊ±µÄÑÕÉ«
-    public Color dangerColor = Color.red; // µÈ¼¶¸ßÓÚÍæ¼ÒÊ±µÄÑÕÉ«
+    [Header("ï¿½È¼ï¿½ï¿½ï¿½Ê¾")]
+    public int monsterLevel = 1; // ï¿½ï¿½ï¿½ï¿½È¼ï¿½
+    public Color safeColor = Color.green; // ï¿½È¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½É«
+    public Color dangerColor = Color.red; // ï¿½È¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½É«
 
-    private Text levelText; // µÈ¼¶ÎÄ±¾
+    private Text levelText; // ï¿½È¼ï¿½ï¿½Ä±ï¿½
 
     private Transform hpBarRoot;
     private Image hpFill;
     private float showTime = 0;
-   [Header("´¥·¢ÒôÐ§")]
+   [Header("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§")]
     public AudioClip monsterHitClip;
     private void Start()
     {
-        // ³õÊ¼»¯Ñ°Â·×é¼þ
+        // ï¿½ï¿½Ê¼ï¿½ï¿½Ñ°Â·ï¿½ï¿½ï¿½
         agent = GetComponent<NavMeshAgent>();
         //hpFill = hpObj.transform.Find("Fill").GetComponent<Image>();
 
         mainCam = Camera.main;
 
-        // ÉèÖÃÑ°Â·²ÎÊý
+        // ï¿½ï¿½ï¿½ï¿½Ñ°Â·ï¿½ï¿½ï¿½ï¿½
         if (agent != null)
         {
             agent.speed = moveSpeed;
         }
       
-        CreateHpBar();   // ´´½¨ÑªÌõ
+        CreateHpBar();   // ï¿½ï¿½ï¿½ï¿½Ñªï¿½ï¿½
      
         UpdateHpUI();
       
-        // Ñ°ÕÒ¹¥»÷Ä¿±ê£¨±ÈÈçÍæ¼ÒµÄÖ÷Ëþ£©
+        // Ñ°ï¿½Ò¹ï¿½ï¿½ï¿½Ä¿ï¿½ê£¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         FindTarget();
     }
     private void FindTarget()
     {
-        // ¸ù¾ÝÄãµÄÓÎÏ·Âß¼­Ñ°ÕÒÄ¿±ê
-        // ÕâÀï¼ÙÉèÍæ¼ÒÖ÷ËþÓÐ "Player" ±êÇ©
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ß¼ï¿½Ñ°ï¿½ï¿½Ä¿ï¿½ï¿½
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ "Player" ï¿½ï¿½Ç©
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
         {
             target = playerObj.transform;
-            // ÉèÖÃÑ°Â·Ä¿±ê
+            // ï¿½ï¿½ï¿½ï¿½Ñ°Â·Ä¿ï¿½ï¿½
             if (agent != null && target != null)
             {
                 agent.SetDestination(target.position);
@@ -101,19 +101,19 @@ public class MonsterTower : TankBaseObj
             FindTarget();
             return;
         }
-        // Èç¹ûÕÒµ½ÁËÄ¿±ê£¬¼ì²é¾àÀë
+        // ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½Ä¿ï¿½ê£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if (target != null)
         {
             float distance = Vector3.Distance(transform.position, target.position);
 
-            // Èç¹ûÔÚ¹¥»÷·¶Î§ÄÚ£¬Í£Ö¹ÒÆ¶¯²¢¹¥»÷
+            // ï¿½ï¿½ï¿½ï¿½Ú¹ï¿½ï¿½ï¿½ï¿½ï¿½Î§ï¿½Ú£ï¿½Í£Ö¹ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             if (distance <= attackRange)
             {
-                // Í£Ö¹ÒÆ¶¯
+                // Í£Ö¹ï¿½Æ¶ï¿½
                 if (agent != null)
                     agent.isStopped = true;
 
-                // ¹¥»÷Âß¼­£¨Ô­ÓÐÂß¼­£©
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ß¼ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ß¼ï¿½ï¿½ï¿½
                 nowTime += Time.deltaTime;
                 if (nowTime >= fireOffsetTime)
                 {
@@ -123,7 +123,7 @@ public class MonsterTower : TankBaseObj
             }
             else
             {
-                // ¼ÌÐøÒÆ¶¯
+                // ï¿½ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½
                 if (agent != null && !agent.isStopped)
                 {
                     agent.isStopped = false;
@@ -132,7 +132,7 @@ public class MonsterTower : TankBaseObj
             }
         }
 
-        // ========= ÑªÌõÏÔÊ¾¼ÆÊ± =========
+        // ========= Ñªï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½Ê± =========
         if (showTime > 0)
         {
             showTime -= Time.deltaTime;
@@ -142,36 +142,36 @@ public class MonsterTower : TankBaseObj
             hpBarRoot.gameObject.SetActive(false);
         }
     }
-    // ´´½¨ÑªÌõUI
+    // ï¿½ï¿½ï¿½ï¿½Ñªï¿½ï¿½UI
     void CreateHpBar()
     {
         if (hpBarPrefab == null) return;
 
-        // ÊµÀý»¯
+        // Êµï¿½ï¿½ï¿½ï¿½
         GameObject hpObj = Instantiate(hpBarPrefab);
 
-        // Î¨Ò»ÕýÈ·µÄ Fill »ñÈ¡ÑªÌõ·½Ê½
+        // Î¨Ò»ï¿½ï¿½È·ï¿½ï¿½ Fill ï¿½ï¿½È¡Ñªï¿½ï¿½ï¿½ï¿½Ê½
         HpBar bar = hpObj.GetComponent<HpBar>();
         if (bar == null || bar.fill == null)
         {
-           // Debug.LogError(" HpBar ×é¼þ»ò fill Î´°ó¶¨£¡");
+           // Debug.LogError(" HpBar ï¿½ï¿½ï¿½ï¿½ï¿½ fill Î´ï¿½ó¶¨£ï¿½");
             return;
         }
         hpFill = bar.fill;
 
-        // Ö±½Ó¹Òµ½¹ÖÎïÉíÉÏ
+        // Ö±ï¿½Ó¹Òµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         hpObj.transform.SetParent(this.transform);
 
-        // ±¾µØÎ»ÖÃ£¨Í·¶¥£©
+        // ï¿½ï¿½ï¿½ï¿½Î»ï¿½Ã£ï¿½Í·ï¿½ï¿½ï¿½ï¿½
         hpObj.transform.localPosition = new Vector3(0, 0f, 0);
         hpObj.transform.localRotation = Quaternion.identity;
         hpObj.transform.localScale = Vector3.one;
 
         hpBarRoot = hpObj.transform;
         hpBarRoot.gameObject.SetActive(false);
-        //²âÊÔÏÔÊ¾Óë·ñ  UI / World Space / ¹ÒÔØÈ«²¿ÊÇ OK µÄ
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½  UI / World Space / ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½ OK ï¿½ï¿½
         //hpBarRoot.gameObject.SetActive(true);
-        //showTime = 999f; // ·ÀÖ¹±» Update Òþ²Ø
+        //showTime = 999f; // ï¿½ï¿½Ö¹ï¿½ï¿½ Update ï¿½ï¿½ï¿½ï¿½
         UpdateHpUI();
     }
 
@@ -189,29 +189,29 @@ public class MonsterTower : TankBaseObj
     {
         for (int i = 0; i < shootPos.Length; i++)
         {
-            //ÊµÀý»¯×Óµ¯
+            //Êµï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½
             GameObject obj= Instantiate(bulletObj, shootPos[i].position, shootPos[i].rotation);
             BulletObj bullet = obj.GetComponent<BulletObj>();
             bullet.SetFather(this);
         }
     }
-    // ÐÞ¸Ä Wound ·½·¨£¬ÏÖÔÚ¹ÖÎï¿ÉÒÔËÀÍöÁË
+    // ï¿½Þ¸ï¿½ Wound ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     public override void Wound(TankBaseObj other)
     {
         if (isDead) return;
       
        
-        // ¼ÆËãÉËº¦
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Ëºï¿½
         int dmg = other.atk - this.def;
         if (dmg <= 0) return;
 
-        // ¼õÑª
+        // ï¿½ï¿½Ñª
         this.hp -= dmg;
 
-        // ²¥·ÅÊÜÉË¶¯»­
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½
        
 
-        // ¼ì²éËÀÍö
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if (this.hp <= 0)
         {
             this.hp = 0;
@@ -221,22 +221,21 @@ public class MonsterTower : TankBaseObj
         if (hpBarRoot != null)
             hpBarRoot.gameObject.SetActive(true);
         UpdateHpUI();
-       // Debug.Log($"¹ÖÎïÊÜÉË£º{dmg}£¬µ±Ç°HP£º{hp}/{maxHp}");
+       // Debug.Log($"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½{dmg}ï¿½ï¿½ï¿½ï¿½Ç°HPï¿½ï¿½{hp}/{maxHp}");
     }
 
-    // ÐÞ¸Ä Dead ·½·¨
+    // ï¿½Þ¸ï¿½ Dead ï¿½ï¿½ï¿½ï¿½
     public override void Dead()
     {
         if (isDead) return;
         isDead = true;
 
-        // Í£Ö¹ÒÆ¶¯
+        // Í£Ö¹ï¿½Æ¶ï¿½
         if (agent != null)
             agent.isStopped = true;
 
-        // »ñÈ¡·ÖÊýÖµ£¨¸ù¾ÝÄãµÄ¹ÖÎïÊý¾Ý£©
+        // ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý£ï¿½
         int scoreValue = monsterTowerScore;
-
         GamePanel gamePanel = UIManager.Instance.GetPanel<GamePanel>();
         if (gamePanel != null)
         {
@@ -245,21 +244,21 @@ public class MonsterTower : TankBaseObj
 
 
 
-        // ²¥·ÅËÀÍö¶¯»­
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 
 
 
-        // µÈ´ý¶¯»­²¥·ÅºóÏú»Ù
+        // ï¿½È´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Åºï¿½ï¿½ï¿½ï¿½ï¿½
         StartCoroutine(DestroyAfterAnimation());
     }
 
     private IEnumerator DestroyAfterAnimation()
     {
-        // µÈ´ý2ÃëÈÃËÀÍö¶¯»­²¥·Å
+        // ï¿½È´ï¿½2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         yield return new WaitForSeconds(2f);
 
-        // ²¥·ÅËÀÍöÌØÐ§£¨Èç¹ûÓÐ£©
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½
         if (deadEff != null)
         {
             Instantiate(deadEff, transform.position, transform.rotation);
@@ -269,15 +268,15 @@ public class MonsterTower : TankBaseObj
         {
             GameDataMgr.Instance.PlaySound(monsterHitClip);
         }
-        // Ïú»Ù¶ÔÏó
+        // ï¿½ï¿½ï¿½Ù¶ï¿½ï¿½ï¿½
         Destroy(gameObject);
     }
 
-    // ¶¯»­ÊÂ¼þ - ÓÃÓÚÍ¬²½¹¥»÷£¨¿ÉÑ¡£©
+    // ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ - ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½
     public void OnAttackAnimationEvent()
     {
-        // Èç¹ûÐèÒªÔÚ¶¯»­ÌØ¶¨Ö¡´¥·¢¹¥»÷Âß¼­
-        // ÕâÀï¿ÉÒÔµ÷ÓÃ Fire() ·½·¨
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½Ú¶ï¿½ï¿½ï¿½ï¿½Ø¶ï¿½Ö¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¼ï¿½
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôµï¿½ï¿½ï¿½ Fire() ï¿½ï¿½ï¿½ï¿½
     }
 
 
