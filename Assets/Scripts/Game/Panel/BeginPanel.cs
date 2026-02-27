@@ -51,11 +51,30 @@ public class BeginPanel : BasePanel
         //开始按钮
         btnBegin.onClick.AddListener(() =>
         {
-           
+            
             GameDataMgr.Instance.currentSceneId = 1;
+
+            // 检查场景数据是否加载完成
+            if (GameDataMgr.Instance.sceneDataList == null || GameDataMgr.Instance.sceneDataList.Count == 0)
+            {
+                Debug.LogError("场景数据未加载完成");
+                return;
+            }
 
             SceneData first = GameDataMgr.Instance.sceneDataList
                 .Find(s => s.id == 1);
+
+            if (first == null)
+            {
+                Debug.LogError("找不到id为1的场景数据");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(first.sceneName))
+            {
+                Debug.LogError("场景名称为空");
+                return;
+            }
 
             SceneManager.LoadScene(first.sceneName);
 

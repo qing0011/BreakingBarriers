@@ -55,53 +55,117 @@ public class GameDataMgr
 
     private GameDataMgr()
     {
-        //可以去初始化 游戏数据
-        musicData = JsonMgr.Instance.LoadData<MusicData>("MusicData");
+        // 初始化默认数据
+        musicData = new MusicData();
+        rankData = new RankList();
+        sceneDataList = new List<SceneData>();
+        monsterDataList = new List<MonsterData>();
+        signInInfoList = new List<SignInInfo>();
+        signInSaveData = new SignInSaveData { signInCount = 0, lastSignInTime = "" };
+        scoreData = new ScoreData();
 
-        //初始化 读取 排行榜数据
-        rankData = JsonMgr.Instance.LoadData<RankList>("Rank");
-
-        sceneDataList = JsonMgr.Instance.LoadData<List<SceneData>>("SceneData");
-
-        //怪物
-        monsterDataList = JsonMgr.Instance.LoadData<List<MonsterData>>("MonsterData");
-
-        //签到
-        signInInfoList = JsonMgr.Instance.LoadData<List<SignInInfo>>("SignInInfo");
-        //初始化签到存档（重点）
-        signInSaveData =JsonMgr.Instance.LoadData<SignInSaveData>("SignInSave");
-        if (signInSaveData == null)
-        {
-            signInSaveData = new SignInSaveData
-            {
-                signInCount = 0,
-                lastSignInTime = ""
-            };
-            SaveSignInData();
-        }
-        //积分存储
-        scoreData = JsonMgr.Instance.LoadData<ScoreData>(SCORE_SAVE_FILE);
-        if (scoreData == null)
-        {
-            scoreData = new ScoreData();
-            SaveScoreData(); // 立刻生成存档
-        }
+        // 开始异步加载数据
+        LoadAllDataAsync();
 
         // 初始化武器预制体列表
-       
-            // 加载所有武器预制体
-            GameObject weapon1 = Resources.Load<GameObject>("Weapon/Weapon1");
-            GameObject weapon2 = Resources.Load<GameObject>("Weapon/Weapon2");
-           // GameObject weapon3 = Resources.Load<GameObject>("Weapon/Weapon3");
+        LoadWeaponPrefabs();
+    }
 
-            if (weapon1 != null)
-                weaponPrefabList.Add(weapon1);
-            if (weapon2 != null)
-                weaponPrefabList.Add(weapon2);
-            //if (weapon3 != null)
-            //    weaponPrefabList.Add(weapon3);
+    private void LoadAllDataAsync()
+    {
+        // 在协程中加载所有数据
+        GameObject dataLoader = new GameObject("DataLoader");
+        DataLoaderComponent loader = dataLoader.AddComponent<DataLoaderComponent>();
+        loader.LoadData(this);
+    }
 
-         
+    // 数据加载组件
+    private class DataLoaderComponent : MonoBehaviour
+    {
+        private GameDataMgr gameDataMgr;
+
+        public void LoadData(GameDataMgr mgr)
+        {
+            gameDataMgr = mgr;
+            StartCoroutine(LoadDataCoroutine());
+        }
+
+        private IEnumerator LoadDataCoroutine()
+        {
+            // 加载音乐数据
+            yield return JsonMgr.Instance.LoadDataAsync<MusicData>("MusicData", (data) => {
+                if (data != null)
+                    gameDataMgr.musicData = data;
+            });
+
+            // 加载排行榜数据
+            yield return JsonMgr.Instance.LoadDataAsync<RankList>("Rank", (data) => {
+                if (data != null)
+                    gameDataMgr.rankData = data;
+            });
+
+            // 加载场景数据
+            yield return JsonMgr.Instance.LoadDataAsync<List<SceneData>>("SceneData", (data) => {
+                if (data != null)
+                    gameDataMgr.sceneDataList = data;
+            });
+
+            // 加载怪物数据
+            yield return JsonMgr.Instance.LoadDataAsync<List<MonsterData>>("MonsterData", (data) => {
+                if (data != null)
+                    gameDataMgr.monsterDataList = data;
+            });
+
+            // 加载签到信息
+            yield return JsonMgr.Instance.LoadDataAsync<List<SignInInfo>>("SignInInfo", (data) => {
+                if (data != null)
+                    gameDataMgr.signInInfoList = data;
+            });
+
+            // 加载签到存档
+            yield return JsonMgr.Instance.LoadDataAsync<SignInSaveData>("SignInSave", (data) => {
+                gameDataMgr.signInSaveData = data;
+                if (gameDataMgr.signInSaveData == null)
+                {
+                    gameDataMgr.signInSaveData = new SignInSaveData
+                    {
+                        signInCount = 0,
+                        lastSignInTime = ""
+                    };
+                    gameDataMgr.SaveSignInData();
+                }
+            });
+
+            // 加载积分存储
+            yield return JsonMgr.Instance.LoadDataAsync<ScoreData>(SCORE_SAVE_FILE, (data) => {
+                gameDataMgr.scoreData = data;
+                if (gameDataMgr.scoreData == null)
+                {
+                    gameDataMgr.scoreData = new ScoreData();
+                    gameDataMgr.SaveScoreData(); // 立刻生成存档
+                }
+            });
+
+            // 数据加载完成后销毁协程运行器
+            Destroy(gameObject);
+        }
+    }
+
+
+
+    private void LoadWeaponPrefabs()
+    {
+        // 加载所有武器预制体
+        GameObject weapon1 = Resources.Load<GameObject>("Weapon/Weapon1");
+        GameObject weapon2 = Resources.Load<GameObject>("Weapon/Weapon2");
+        // GameObject weapon3 = Resources.Load<GameObject>("Weapon/Weapon3");
+
+        if (weapon1 != null)
+            weaponPrefabList.Add(weapon1);
+        if (weapon2 != null)
+            weaponPrefabList.Add(weapon2);
+        // if (weapon3 != null)
+        //     weaponPrefabList.Add(weapon3);
     }
 
 
