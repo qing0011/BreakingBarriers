@@ -822,7 +822,7 @@ GameObject:
   - component: {fileID: 7379471551678176331}
   - component: {fileID: 7379471551678176329}
   m_Layer: 0
-  m_Name: Role_Monster_01
+  m_Name: Role_Monster_02
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -907,8 +907,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60d572a6d65db7f46bb00b59d6f88417, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  atk: 15
-  def: 4
+  atk: 40
+  def: 5
   maxHp: 100
   hp: 100
   tankHead: {fileID: 0}

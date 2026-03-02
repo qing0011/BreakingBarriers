@@ -109,8 +109,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc95a69ae6c1b0042a15a43c696256d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  atk: 5
-  def: 0
+  atk: 40
+  def: 4
   maxHp: 0
   hp: 100
   tankHead: {fileID: 0}
@@ -124,8 +124,12 @@ MonoBehaviour:
   - {fileID: 6353524032586890565}
   bulletObj: {fileID: 4559960731174322708, guid: 9883037658fbeb84bb971bdd81fcb57d, type: 3}
   attackRange: 10
+  monsterTowerScore: 20
   hpBarPrefab: {fileID: 0}
-  hitClip: {fileID: 8300000, guid: d31724c77602b86478d47611b740a275, type: 3}
+  monsterLevel: 1
+  safeColor: {r: 0, g: 1, b: 0, a: 1}
+  dangerColor: {r: 1, g: 0, b: 0, a: 1}
+  monsterHitClip: {fileID: 0}
 --- !u!1 &6353524032586591559
 GameObject:
   m_ObjectHideFlags: 0
