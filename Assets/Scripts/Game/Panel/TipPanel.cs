@@ -14,7 +14,7 @@ public class TipPanel : BasePanel
         btnClose.onClick.RemoveAllListeners();
         btnClose.onClick.AddListener(() =>
         {
-            //���غ��������
+           
             GameDataMgr.Instance.ResetGameData();
             UIManager.Instance.HidePanel<TipPanel>();
             Time.timeScale = 0.1f;

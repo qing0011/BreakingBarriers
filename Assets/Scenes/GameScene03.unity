@@ -566,8 +566,16 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1885106637178024016, guid: 11733f5be206fa64dbfe472e0a9f823f, type: 3}
+      propertyPath: fireDis
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885106637178024016, guid: 11733f5be206fa64dbfe472e0a9f823f, type: 3}
       propertyPath: lookAtTarget
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885106637178024016, guid: 11733f5be206fa64dbfe472e0a9f823f, type: 3}
+      propertyPath: fireOffsetTime
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 1885106637178024016, guid: 11733f5be206fa64dbfe472e0a9f823f, type: 3}
       propertyPath: randomPos.Array.data[0]
@@ -3899,8 +3907,16 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1848318631621482030, guid: 22f6ad4a59f032643ab6a9fe3101b711, type: 3}
+      propertyPath: fireDis
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1848318631621482030, guid: 22f6ad4a59f032643ab6a9fe3101b711, type: 3}
       propertyPath: lookAtTarget
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1848318631621482030, guid: 22f6ad4a59f032643ab6a9fe3101b711, type: 3}
+      propertyPath: fireOffsetTime
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 1848318631621482030, guid: 22f6ad4a59f032643ab6a9fe3101b711, type: 3}
       propertyPath: randomPos.Array.data[0]
@@ -4186,8 +4202,16 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1848318631621482030, guid: 22f6ad4a59f032643ab6a9fe3101b711, type: 3}
+      propertyPath: fireDis
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1848318631621482030, guid: 22f6ad4a59f032643ab6a9fe3101b711, type: 3}
       propertyPath: lookAtTarget
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1848318631621482030, guid: 22f6ad4a59f032643ab6a9fe3101b711, type: 3}
+      propertyPath: fireOffsetTime
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 1848318631621482030, guid: 22f6ad4a59f032643ab6a9fe3101b711, type: 3}
       propertyPath: randomPos.Array.size
@@ -9472,8 +9496,16 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1848318631621482030, guid: 22f6ad4a59f032643ab6a9fe3101b711, type: 3}
+      propertyPath: fireDis
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1848318631621482030, guid: 22f6ad4a59f032643ab6a9fe3101b711, type: 3}
       propertyPath: lookAtTarget
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1848318631621482030, guid: 22f6ad4a59f032643ab6a9fe3101b711, type: 3}
+      propertyPath: fireOffsetTime
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 1848318631621482030, guid: 22f6ad4a59f032643ab6a9fe3101b711, type: 3}
       propertyPath: randomPos.Array.size
@@ -14088,8 +14120,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 228673131284316927, guid: 91a942ee9192e1f4f819d9d98f57bf09, type: 3}
     - target: {fileID: 1885106637178024016, guid: 11733f5be206fa64dbfe472e0a9f823f, type: 3}
+      propertyPath: fireDis
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885106637178024016, guid: 11733f5be206fa64dbfe472e0a9f823f, type: 3}
       propertyPath: lookAtTarget
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885106637178024016, guid: 11733f5be206fa64dbfe472e0a9f823f, type: 3}
+      propertyPath: fireOffsetTime
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 1885106637178024016, guid: 11733f5be206fa64dbfe472e0a9f823f, type: 3}
       propertyPath: randomPos.Array.data[0]
@@ -15593,8 +15633,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1848318631621482030, guid: 22f6ad4a59f032643ab6a9fe3101b711, type: 3}
+      propertyPath: fireDis
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1848318631621482030, guid: 22f6ad4a59f032643ab6a9fe3101b711, type: 3}
       propertyPath: lookAtTarget
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1848318631621482030, guid: 22f6ad4a59f032643ab6a9fe3101b711, type: 3}
+      propertyPath: fireOffsetTime
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 1848318631621482030, guid: 22f6ad4a59f032643ab6a9fe3101b711, type: 3}
       propertyPath: randomPos.Array.data[0]
@@ -16068,6 +16116,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MonsterDo03 (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 5576963503748221987, guid: 26e765b1e8c71884fba50f6ea26bd16c, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5576963504645150341, guid: 26e765b1e8c71884fba50f6ea26bd16c, type: 3}
       propertyPath: atk
       value: 18
@@ -16077,8 +16129,16 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5576963504645150341, guid: 26e765b1e8c71884fba50f6ea26bd16c, type: 3}
+      propertyPath: fireDis
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5576963504645150341, guid: 26e765b1e8c71884fba50f6ea26bd16c, type: 3}
       propertyPath: lookAtTarget
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5576963504645150341, guid: 26e765b1e8c71884fba50f6ea26bd16c, type: 3}
+      propertyPath: fireOffsetTime
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 5576963504645150341, guid: 26e765b1e8c71884fba50f6ea26bd16c, type: 3}
       propertyPath: randomPos.Array.data[0]
@@ -29146,8 +29206,16 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1885106637178024016, guid: 11733f5be206fa64dbfe472e0a9f823f, type: 3}
+      propertyPath: fireDis
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885106637178024016, guid: 11733f5be206fa64dbfe472e0a9f823f, type: 3}
       propertyPath: lookAtTarget
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885106637178024016, guid: 11733f5be206fa64dbfe472e0a9f823f, type: 3}
+      propertyPath: fireOffsetTime
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 1885106637178024016, guid: 11733f5be206fa64dbfe472e0a9f823f, type: 3}
       propertyPath: randomPos.Array.data[0]
@@ -30785,6 +30853,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 5576963503748221987, guid: 26e765b1e8c71884fba50f6ea26bd16c, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5576963504645150341, guid: 26e765b1e8c71884fba50f6ea26bd16c, type: 3}
       propertyPath: atk
       value: 18
@@ -30798,8 +30870,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7777503444582044457, guid: 274f566143b035149990f0459e9af312, type: 3}
     - target: {fileID: 5576963504645150341, guid: 26e765b1e8c71884fba50f6ea26bd16c, type: 3}
+      propertyPath: fireDis
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5576963504645150341, guid: 26e765b1e8c71884fba50f6ea26bd16c, type: 3}
       propertyPath: lookAtTarget
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5576963504645150341, guid: 26e765b1e8c71884fba50f6ea26bd16c, type: 3}
+      propertyPath: fireOffsetTime
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 5576963504645150341, guid: 26e765b1e8c71884fba50f6ea26bd16c, type: 3}
       propertyPath: randomPos.Array.data[0]
@@ -31915,8 +31995,16 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1885106637178024016, guid: 11733f5be206fa64dbfe472e0a9f823f, type: 3}
+      propertyPath: fireDis
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885106637178024016, guid: 11733f5be206fa64dbfe472e0a9f823f, type: 3}
       propertyPath: lookAtTarget
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885106637178024016, guid: 11733f5be206fa64dbfe472e0a9f823f, type: 3}
+      propertyPath: fireOffsetTime
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 1885106637178024016, guid: 11733f5be206fa64dbfe472e0a9f823f, type: 3}
       propertyPath: randomPos.Array.data[0]
@@ -32224,6 +32312,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 5576963503748221987, guid: 26e765b1e8c71884fba50f6ea26bd16c, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5576963504645150341, guid: 26e765b1e8c71884fba50f6ea26bd16c, type: 3}
       propertyPath: atk
       value: 18
@@ -32233,8 +32325,16 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5576963504645150341, guid: 26e765b1e8c71884fba50f6ea26bd16c, type: 3}
+      propertyPath: fireDis
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5576963504645150341, guid: 26e765b1e8c71884fba50f6ea26bd16c, type: 3}
       propertyPath: lookAtTarget
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5576963504645150341, guid: 26e765b1e8c71884fba50f6ea26bd16c, type: 3}
+      propertyPath: fireOffsetTime
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 5576963504645150341, guid: 26e765b1e8c71884fba50f6ea26bd16c, type: 3}
       propertyPath: randomPos.Array.data[0]
@@ -33594,8 +33694,16 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1848318631621482030, guid: 22f6ad4a59f032643ab6a9fe3101b711, type: 3}
+      propertyPath: fireDis
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1848318631621482030, guid: 22f6ad4a59f032643ab6a9fe3101b711, type: 3}
       propertyPath: lookAtTarget
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1848318631621482030, guid: 22f6ad4a59f032643ab6a9fe3101b711, type: 3}
+      propertyPath: fireOffsetTime
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 1848318631621482030, guid: 22f6ad4a59f032643ab6a9fe3101b711, type: 3}
       propertyPath: randomPos.Array.data[0]
