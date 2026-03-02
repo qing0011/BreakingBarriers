@@ -4,81 +4,53 @@ using UnityEngine;
 
 public class BulletObj : MonoBehaviour
 {
-    public float moveSpeed = 50;//ÒÆ¶¯ËÙ¶È
-    public TankBaseObj fatherObj;//·¢Éä¸¸ÎïÌå
-    public GameObject effObj;//ÌØĞ§¶ÔÏó
+    public float moveSpeed = 50;//ç§»åŠ¨é€Ÿåº¦
+    public TankBaseObj fatherObj;//å­å¼¹çˆ¶ç‰©ä½“
+    public GameObject effObj;//ç‰¹æ•ˆç‰©ä½“
     public AudioClip hitClip;
     // Update is called once per frame
     void Update()
     {
        this.transform.Translate(Vector3.forward * moveSpeed*Time.deltaTime); 
     }
-    //ºÍ±ğÈËÅö×²´¥·¢
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    //×Óµ¯Éä»÷µ½Á¢·½Ìå»á±¬Õ¨
-    //    //×Óµ¯Éä»÷²»Í¬ÕóÓª»á±¬Õ¨
-    //    if (
-    //         other.CompareTag("Cube") ||
-    //         (other.CompareTag("Player") && fatherObj.CompareTag("Monster")) ||
-    //         (other.CompareTag("Monster") && fatherObj.CompareTag("Player"))
-    //       )
-
-    //    {
-    //        //ÅĞ¶ÏÊÇ·ñÊÜÉË
-    //        //ÀïÊÏÌæ»»Ô­Ôò²é¿´ÊÇ·ñÓĞÌ¹¿Ë½Å±¾ÔÚÅö×²µ½µÄ¶ÔÏóÉíÉÏ
-    //        //Í¨¹ı¸¸Àà»ñÈ¡
-    //        TankBaseObj obj = other.GetComponent<TankBaseObj>();
-    //        if(obj != null)
-    //        {
-    //            obj.Wound(fatherObj);
-    //        }
-    //        //µ²×Óµ¯Ïú»ÙÊ±£¬´´½¨Ò»¸ö±¬Õ¨ÌØĞ§
-    //        GameObject eff = Instantiate(effObj, this.transform.position, this.transform.rotation);
-    //        //ĞŞ¸ÄÒôĞ§µÄÒôÁ¿ºÍ¿ªÆô×´Ì¬
-
-    //        //²¥·Å¡°±¾ÎïÌå×¨ÊôÒôĞ§¡±
-    //        if (hitClip != null)
-    //        {
-    //            GameDataMgr.Instance.PlaySound(hitClip);
-    //        }
-
-    //    }
-    //    Destroy(this.gameObject);
-    //}
-    //ÉèÖÃÓµÓĞ×Å
-
-       //ºÍ±ğÈËÅö×²´¥·¢
+    //å­å¼¹å‘ç”Ÿç¢°æ’æ—¶
     private void OnTriggerEnter(Collider other)
     {
-        // ========== °²È«¼ì²é ==========
-        // ¼ì²éÅö×²¶ÔÏóÊÇ·ñÓĞĞ§
+        // ========== å®‰å…¨æ£€æŸ¥ ==========
+        // æ£€æŸ¥ç¢°æ’å¯¹è±¡æ˜¯å¦æœ‰æ•ˆ
         if (other == null || other.gameObject == null) return;
         
-        // ¼ì²é·¢ÉäÕßÊÇ·ñÒÑ±»Ïú»Ù
+        // æ£€æŸ¥çˆ¶å¯¹è±¡æ˜¯å¦å·²è¢«é”€æ¯
         if (fatherObj == null || fatherObj.gameObject == null)
         {
-            Debug.LogWarning("×Óµ¯µÄ·¢ÉäÕßÒÑ±»Ïú»Ù");
+            Debug.LogWarning("å­å¼¹çš„çˆ¶å¯¹è±¡å·²è¢«é”€æ¯");
             Destroy(gameObject);
             return;
         }
         
-        // ========== Åö×²¼ì²â ==========
+        // ========== ç¢°æ’è¿‡æ»¤ ==========
+        // é¿å…å­å¼¹ä¸å‘å°„å®ƒçš„å¦å…‹å‘ç”Ÿç¢°æ’
+        if (other.gameObject == fatherObj.gameObject || other.transform.IsChildOf(fatherObj.transform))
+        {
+            return;
+        }
+        
+        // ========== ç¢°æ’åˆ¤æ–­ ==========
         bool shouldExplode = false;
         
         try
         {
-            // ¼ì²éÊÇ·ñÊÇÁ¢·½Ìå
+            // åˆ¤æ–­æ˜¯å¦å‡»ä¸­éšœç¢ç‰©
             if (other.CompareTag("Cube"))
             {
                 shouldExplode = true;
             }
-            // ¼ì²éÍæ¼Ò´ò¹ÖÎï
+            // ç©å®¶æ‰“æ€ªç‰©
             else if (other.CompareTag("Monster") && fatherObj.CompareTag("Player"))
             {
                 shouldExplode = true;
             }
-            // ¼ì²é¹ÖÎï´òÍæ¼Ò
+            // æ€ªç‰©æ‰“ç©å®¶
             else if (other.CompareTag("Player") && fatherObj.CompareTag("Monster"))
             {
                 shouldExplode = true;
@@ -86,28 +58,28 @@ public class BulletObj : MonoBehaviour
         }
         catch (MissingReferenceException)
         {
-            // Èç¹û±êÇ©±È½ÏÊ±±¨´í£¬ËµÃ÷¶ÔÏóÒÑ±»Ïú»Ù
-            Debug.Log("Åö×²¶ÔÏóÒÑ±»Ïú»Ù");
+            // å½“æ ‡ç­¾æ¯”è¾ƒæ—¶å‡ºç°ç©ºå¼•ç”¨å¼‚å¸¸
+            Debug.Log("ç¢°æ’å¯¹è±¡å·²è¢«é”€æ¯");
             Destroy(gameObject);
             return;
         }
         
-        // ========== ´¦Àí±¬Õ¨ ==========
+        // ========== äº§ç”Ÿçˆ†ç‚¸ ==========
         if (shouldExplode)
         {
-            // ÏÈ´´½¨ÌØĞ§£¨¼´Ê¹Ä¿±ê±»Ïú»ÙÒ²ÏÔÊ¾ÌØĞ§£©
+            // å…ˆåˆ›å»ºç‰¹æ•ˆå¯¹è±¡ä½¿ç›®æ ‡è¢«å‡»ä¸­æ—¶ä¹Ÿèƒ½çœ‹åˆ°ç‰¹æ•ˆ
             if (effObj != null)
             {
                 GameObject eff = Instantiate(effObj, transform.position, transform.rotation);
             }
             
-            // ²¥·ÅÒôĞ§
+            // æ’­æ”¾éŸ³æ•ˆ
             if (hitClip != null && GameDataMgr.Instance != null)
             {
                 GameDataMgr.Instance.PlaySound(hitClip);
             }
             
-            // ³¢ÊÔÔì³ÉÉËº¦£¨ĞèÒª¶îÍâ¼ì²é£©
+            // å¤„ç†ç›®æ ‡å—ä¼¤ï¼ˆå¦‚æœéœ€è¦çš„è¯ï¼‰
             try
             {
                 if (other.gameObject != null)
@@ -121,18 +93,18 @@ public class BulletObj : MonoBehaviour
             }
             catch (MissingReferenceException)
             {
-                Debug.Log("Ä¿±êÔÚÔì³ÉÉËº¦Ç°ÒÑ±»Ïú»Ù");
+                Debug.Log("ç›®æ ‡å¯¹è±¡å—ä¼¤å‰å·²è¢«é”€æ¯");
             }
         }
         
-        // ×îºóÏú»Ù×Óµ¯
+        // é”€æ¯å­å¼¹
         Destroy(gameObject);
     }
     public void SetFather(TankBaseObj obj)
     {
         fatherObj = obj;
     }
-    // ÔÚÏú»ÙÇ°ÇåÀí
+    // é”€æ¯å‰å¤„ç†
     private void OnDestroy()
     {
         fatherObj = null;
