@@ -44,11 +44,14 @@ public class FailPanel : BasePanel
                 //提示积分不足
                 Debug.Log("积分不足，无法继续");
                 StartCoroutine(ShowTipForSeconds(2f));
-                // UIManager.Instance.ShowPanel<TipPanel>();
+                 UIManager.Instance.ShowPanel<TipPanel>();
             }
-            Debug.Log("FailPanel Init 被调用");
-            txtContinueCost.text ="继续需要：" +GameDataMgr.Instance.GetContinueCost();
+           
         });
+        //初始化时设置继续成本
+        
+        txtContinueCost.text = "继续需要：" + GameDataMgr.Instance.GetContinueCost();
+        Debug.Log("FailPanel Init 被调用");
     }
     private IEnumerator ShowTipForSeconds(float seconds)
     {

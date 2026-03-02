@@ -267,7 +267,9 @@ public class GameLevelMgr : MonoBehaviour
 
         if (data == null)
         {
-            // 不是游戏关卡场景，直接返回
+            // 不是游戏关卡场景，停止计时协程并重置游戏状态
+            isRunning = false;
+            StopTimeCoroutine();
             return;
         }
 
