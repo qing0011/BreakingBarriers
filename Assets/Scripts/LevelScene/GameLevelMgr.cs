@@ -220,11 +220,15 @@ public class GameLevelMgr : MonoBehaviour
 
         if (UIManager.Instance.ShowPanel<LevelCompletePanel>())
         {
+            // 暂停游戏时间
+            Time.timeScale = 0f;
             return;
         }
         else
         {
             UIManager.Instance.ShowPanel<FailPanel>();
+            // 暂停游戏时间
+            Time.timeScale = 0f;
         }
 
     }
@@ -232,7 +236,9 @@ public class GameLevelMgr : MonoBehaviour
     // 继续下一关
     public void ContinueNextLevel()
     {
-       
+        // 恢复游戏时间
+        Time.timeScale = 1f;
+        
         // 计算下一关ID
         int nextId = GameDataMgr.Instance.currentSceneId + 1;
 

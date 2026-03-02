@@ -38,7 +38,7 @@ public abstract class BasePanel : MonoBehaviour
         // 确保游戏对象是激活的
         if (!gameObject.activeSelf)
             gameObject.SetActive(true);
-        canvasGroup.alpha = 0;
+        canvasGroup.alpha = 1;
         isShow = true;
     }
     /// <summary>
