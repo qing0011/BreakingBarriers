@@ -47,7 +47,7 @@ public class MonsterObj : TankBaseObj
 
         if (hpBarRoot != null)
             hpBarRoot.gameObject.SetActive(false);
-        CreateHpBar();   // 这一行你漏掉了
+        CreateHpBar();   
         UpdateHpUI();
     }
     void LateUpdate()
@@ -66,60 +66,79 @@ public class MonsterObj : TankBaseObj
             FindPlayer();
         }
 
-        // ========= 巡逻移动（必须先判空） =========
-
-        // 决定朝向的目标
-        Transform currentLookTarget = null;
-
+        // 计算与玩家的距离（如果玩家存在）
+        float disToPlayer = float.MaxValue;
         if (lookAtTarget != null)
         {
-            float dis = Vector3.Distance(transform.position, lookAtTarget.position);
-            if (dis <= fireDis)
-            {
-                currentLookTarget = lookAtTarget;
+            disToPlayer = Vector3.Distance(transform.position, lookAtTarget.position);
+        }
 
-                nowTime += Time.deltaTime;
-                if (nowTime >= fireOffsetTime)
+        // 决定当前应该看向的目标（用于旋转）
+        Transform currentLookTarget = null;
+
+        // ========= 攻击/追逐逻辑 =========
+        if (lookAtTarget != null && disToPlayer <= fireDis)
+        {
+            // 在攻击范围内 - 看向玩家并攻击
+            currentLookTarget = lookAtTarget;
+
+            nowTime += Time.deltaTime;
+            if (nowTime >= fireOffsetTime)
+            {
+                Fire();
+                nowTime = 0;
+            }
+        }
+        else if (lookAtTarget != null && disToPlayer > fireDis)
+        {
+            // 玩家在攻击范围外但可见 - 看向玩家（追逐）
+            currentLookTarget = lookAtTarget;
+        }
+
+        // ========= 巡逻逻辑 =========
+        if (targetPos != null)
+        {
+            // 判断是否需要巡逻
+            bool shouldPatrol = (lookAtTarget == null) || (lookAtTarget != null && disToPlayer > fireDis);
+
+            if (shouldPatrol)
+            {
+                // 巡逻时，应该看向巡逻目标点
+                currentLookTarget = targetPos;
+
+                // 向巡逻点移动（保持Y轴不变）
+                Vector3 targetPosition = new Vector3(
+                    targetPos.position.x,
+                    transform.position.y,
+                    targetPos.position.z
+                );
+
+                transform.position = Vector3.MoveTowards(
+                    transform.position,
+                    targetPosition,
+                    moveSpeed * Time.deltaTime
+                );
+
+                // 到达目标点后选择新的巡逻点
+                if (Vector3.Distance(transform.position, targetPos.position) < 0.5f)
                 {
-                    Fire();
-                    nowTime = 0;
+                    RandomPos();
                 }
             }
-            else
-            {
-                // 追逐玩家时，也应该朝玩家看
-                currentLookTarget = lookAtTarget;
-            }
         }
 
-        // 如果没有玩家目标，看巡逻点
-        if (currentLookTarget == null && targetPos != null)
-        {
-            currentLookTarget = targetPos;
-        }
-
-        // 统一朝向处理
+        // ========= 统一的朝向处理 =========
         if (currentLookTarget != null)
         {
-            // 只改变Y轴旋转，保持怪物在地面上
+            // 创建目标位置（保持怪物的Y轴高度，但可以略微调整让视线更自然）
             Vector3 targetPosition = new Vector3(
                 currentLookTarget.position.x,
-                transform.position.y-0.2f,//玩家的Y轴向下移动因为玩家缩小一倍/////////////////////////重点回头可能还会修改/////////
+                transform.position.y,  // 保持当前Y轴高度
                 currentLookTarget.position.z
             );
+
+            // 转向目标
             transform.LookAt(targetPosition);
-        }
-
-        // 移动逻辑（只有巡逻时才移动）
-        if (lookAtTarget == null && targetPos != null)
-        {
-            // 使用本地坐标移动
-            transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime, Space.Self);
-
-            if (Vector3.Distance(transform.position, targetPos.position) < 0.5f)
-            {
-                RandomPos();
-            }
         }
 
         // ========= 血条显示计时 =========
@@ -131,10 +150,6 @@ public class MonsterObj : TankBaseObj
         {
             hpBarRoot.gameObject.SetActive(false);
         }
-
-
-
-
     }
 
     void FindPlayer()

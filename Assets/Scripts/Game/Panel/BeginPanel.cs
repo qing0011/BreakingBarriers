@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class BeginPanel : BasePanel
 {
-    //��������
+    
     public Button btnBegin;
     public Button btnSetting;
     public Button btnSignIn;
@@ -47,7 +47,7 @@ public class BeginPanel : BasePanel
         });
 
         //锁定Game试图
-        //Cursor.lockState = CursorLockMode.Confined;
+        Cursor.lockState = CursorLockMode.Confined;
         //开始按钮
         btnBegin.onClick.AddListener(() =>
         {
