@@ -323,12 +323,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8b88b7c5b72de343860923146b33423, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  atk: 2
+  atk: 4
   def: 1
   maxHp: 100
   hp: 100
   tankHead: {fileID: 6207386144639807732}
-  moveSpeed: 3
+  moveSpeed: 1
   roundSpeed: 100
   headRandSpeed: 100
   deadEff: {fileID: 7777503444582044457, guid: 274f566143b035149990f0459e9af312, type: 3}

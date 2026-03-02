@@ -112,8 +112,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rewardObject:
   - {fileID: 717684729384234173, guid: 6930f33370bc30f48868d0a5877d28f1, type: 3}
-  - {fileID: 7904056871306787317, guid: 7dc78967a4255784d994f81e49dfb508, type: 3}
-  - {fileID: 6944777852539437686, guid: 85299e538e225b948ab13ad5541957ff, type: 3}
-  - {fileID: 5536716353198649738, guid: 40cd53d5571e7534aad53a68146f06f4, type: 3}
   deadEff: {fileID: 3591201399887180039, guid: 38cae1ff53bf7e741b66ea136edbf388, type: 3}
   hitClip: {fileID: 8300000, guid: a2287502aaf0e5645a44e456f434b8fe, type: 3}
