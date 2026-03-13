@@ -213,6 +213,7 @@ GameObject:
   - component: {fileID: 5346328657198757111}
   - component: {fileID: 5303483886513959949}
   - component: {fileID: 8217491757436022325}
+  - component: {fileID: 229536494500717921}
   m_Layer: 0
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -227,7 +228,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4203704789794287416}
-  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 8.01, y: 0.08485031, z: 14.181}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
@@ -236,7 +237,7 @@ Transform:
   - {fileID: 7570905354992058881}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &5346328657198757111
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -291,6 +292,20 @@ MonoBehaviour:
   weaponPos: {fileID: 9195693821188093182}
   variableJoystick: {fileID: 3881087803549984439, guid: ec536a7718376554185e4a856d5ae230, type: 3}
   joystickSpeed: 10
+--- !u!114 &229536494500717921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4203704789794287416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f5d03c487ee4a84fb290253ff0fa1d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  rotationSpeed: 10
 --- !u!1 &4686909157098824118
 GameObject:
   m_ObjectHideFlags: 0
