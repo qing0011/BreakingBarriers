@@ -16,8 +16,15 @@ public class CameraMove : MonoBehaviour
 
     private Vector3 targetPos;
     private Quaternion targetRotation;
+    private Vector3 velocity;
 
-    void Update()
+    // 添加这个公开方法供其他脚本调用
+    public void SetTarget(Transform player)
+    {
+        target = player;
+    }
+
+    void LateUpdate()
     {
         if (target == null)
             return;
@@ -30,18 +37,14 @@ public class CameraMove : MonoBehaviour
         //左右偏移X坐标
         targetPos += target.right * offsetPos.x;
         //插值运算 让摄像机 不停向目标点靠拢
-        this.transform.position = Vector3.Lerp(this.transform.position, targetPos, moveSpeed * Time.deltaTime);
-
+        // this.transform.position = Vector3.Lerp(this.transform.position, targetPos, moveSpeed * Time.deltaTime);
+        transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velocity, 0.1f);
         //旋转的计算
         //得到最终要看向某个点时的四元数
         targetRotation = Quaternion.LookRotation(target.position + Vector3.up * bodyHeight - this.transform.position);
         //让摄像机不停的向目标角度靠拢
-        this.transform.rotation = Quaternion.Slerp(this.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        //this.transform.rotation = Quaternion.Slerp(this.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * 100f * Time.deltaTime);
     }
 
-
-    public void SetTarget(Transform player)
-    {
-        target = player;
-    }
 }
