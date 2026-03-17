@@ -1,0 +1,9 @@
+[
+{"monsterId":1001,"res":"Monster/Monster_Tower_01","monsterName":"Monster_Tower_01","hp":10,"atk":50,"moveSpeed":100,"roundSpeed":100,"atkOffset":0.8},
+{"monsterId":1002,"res":"Monster/Monster_Tower_02","monsterName":"Monster_Tower_02","hp":10,"atk":20,"moveSpeed":50,"roundSpeed":100,"atkOffset":1.2},
+{"monsterId":1003,"res":"Monster/Monster_Tower_03","monsterName":"Monster_Tower_03","hp":10,"atk":30,"moveSpeed":60,"roundSpeed":100,"atkOffset":1},
+{"monsterId":1004,"res":"Monster/Monster_Tower_04","monsterName":"Monster_Tower_04","hp":10,"atk":30,"moveSpeed":100,"roundSpeed":100,"atkOffset":0.5},
+{"monsterId":1005,"res":"Monster/Monster_Tower_05","monsterName":"Monster_Tower_05","hp":10,"atk":50,"moveSpeed":110,"roundSpeed":100,"atkOffset":0.8},
+{"monsterId":1006,"res":"Monster/Monster_Tower_06","monsterName":"Monster_Tower_06","hp":10,"atk":50,"moveSpeed":100,"roundSpeed":100,"atkOffset":0.8},
+{"monsterId":1007,"res":"Monster/Monster_Tower_07","monsterName":"Monster_Tower_07","hp":10,"atk":50,"moveSpeed":100,"roundSpeed":100,"atkOffset":0.8}
+]
