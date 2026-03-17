@@ -277,7 +277,7 @@ public class GameDataMgr
         JsonMgr.Instance.SaveData(scoreData, SCORE_SAVE_FILE);
     }
     //l累计总计分（每次完成游戏后获得的积分与目前拥有的积分累加）
-    public  void TryRefreshTotalScoreData()
+    public void TryRefreshTotalScoreData()
     {
         //在ScoreData里面声明了两个变量数据：haveScore：是她原本拥有的，初始化为0；
         //buyContinue：这个是购买的需要花费的钱。购买这个数据写死的话是不需要的。

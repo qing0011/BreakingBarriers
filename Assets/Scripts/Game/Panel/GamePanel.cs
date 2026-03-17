@@ -57,6 +57,7 @@ public class GamePanel : BasePanel
 
     // 缓存玩家对象
     private GameObject cachedPlayer;
+    private PlayerController playerController;
     private float playerSearchTimer = 0f;
     private const float PLAYER_SEARCH_INTERVAL = 0.5f; // 每0.5秒搜索一次玩家
     
@@ -67,7 +68,7 @@ public class GamePanel : BasePanel
     // 新增：相机引用
     private CameraMove cameraMove;
 
-    private PlayerController playerController;
+    
     //监听事件按钮
     public override void Init()
     {
@@ -90,7 +91,7 @@ public class GamePanel : BasePanel
         btnReturn.onClick.AddListener(() =>
         {
             GameDataMgr.Instance.TryRefreshMaxScore(GameDataMgr.Instance.labScore);
-            GameDataMgr.Instance.TryRefreshTotalScoreData();
+           // GameDataMgr.Instance.TryRefreshTotalScoreData();
 
             //返回后必须重置
             GameDataMgr.Instance.ResetGameData();
@@ -253,12 +254,15 @@ public class GamePanel : BasePanel
             //float curved = adjustedMagnitude * adjustedMagnitude;
 
             //joystickInputDirection = rawInput.normalized * curved * joystickSensitivity;
-            joystickInputDirection = rawInput.normalized * rawInput.magnitude * joystickSensitivity;
-        
+            //joystickInputDirection = rawInput.normalized * rawInput.magnitude * joystickSensitivity;
+            float magnitude = rawInput.magnitude;
+            float curved = magnitude * magnitude;
+
+            joystickInputDirection =rawInput.normalized * curved * joystickSensitivity;
         }
     }
     // 每帧更新玩家移动
-    private void Update()
+    private void  Update()
     {
         //定期查看玩家和相机
         playerSearchTimer -= Time.deltaTime;
@@ -318,70 +322,75 @@ public class GamePanel : BasePanel
         if (cachedPlayer == null || !cachedPlayer.activeInHierarchy)
         {
             cachedPlayer = GameObject.FindGameObjectWithTag(playerTag);
+
+            if (cachedPlayer != null)
+            {
+                playerController = cachedPlayer.GetComponent<PlayerController>();
+            }
         }
     }
 
     // 使用摇杆移动玩家
-    private void MovePlayerWithJoystick()
-    {
-        if (cachedPlayer == null) return;
-        Rigidbody rb = cachedPlayer.GetComponent<Rigidbody>();
-        if (rb == null) return;
+    //private void MovePlayerWithJoystick()
+    //{
+    //    if (cachedPlayer == null) return;
+    //    Rigidbody rb = cachedPlayer.GetComponent<Rigidbody>();
+    //    if (rb == null) return;
 
-        Camera cam = Camera.main;
-        if (cam == null) return;
-        // 获取相机方向
-        Vector3 forward = cam.transform.forward;
-        Vector3 right = cam.transform.right;
+    //    Camera cam = Camera.main;
+    //    if (cam == null) return;
+    //    // 获取相机方向
+    //    Vector3 forward = cam.transform.forward;
+    //    Vector3 right = cam.transform.right;
 
-        forward.y = 0;
-        right.y = 0;
+    //    forward.y = 0;
+    //    right.y = 0;
 
-        forward.Normalize();
-        right.Normalize();
-        // 计算移动方向
-        Vector3 moveDirection =forward * joystickInputDirection.y +right * joystickInputDirection.x;
+    //    forward.Normalize();
+    //    right.Normalize();
+    //    // 计算移动方向
+    //    Vector3 moveDirection =forward * joystickInputDirection.y +right * joystickInputDirection.x;
 
-        float inputStrength = joystickInputDirection.magnitude;
+    //    float inputStrength = joystickInputDirection.magnitude;
 
-        if (inputStrength > 0.1f)
-        {
-            moveDirection.Normalize();
+    //    if (inputStrength > 0.1f)
+    //    {
+    //        moveDirection.Normalize();
 
-            // ⭐ 直接设置速度，而不是用加速度（消除物理惯性）
-            Vector3 targetVelocity = moveDirection * moveSpeed * inputStrength;
-            targetVelocity.y = rb.velocity.y; // 保持垂直速度
+    //        // ⭐ 直接设置速度，而不是用加速度（消除物理惯性）
+    //        Vector3 targetVelocity = moveDirection * moveSpeed * inputStrength;
+    //        targetVelocity.y = rb.velocity.y; // 保持垂直速度
 
-            // 直接赋值速度，不会有飘逸
-            rb.velocity = targetVelocity;
+    //        // 直接赋值速度，不会有飘逸
+    //        rb.velocity = targetVelocity;
 
-            // 面向移动方向
-            if (autoRotateToMoveDirection)
-            {
-                Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-                rb.rotation = Quaternion.Slerp(rb.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
-            }
-        }
-        else
-        {
-            // 没有输入时，减速停止
-            Vector3 horizontalVelocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-            rb.velocity = new Vector3(
-                Mathf.Lerp(horizontalVelocity.x, 0, 10f * Time.fixedDeltaTime),
-                rb.velocity.y,
-                Mathf.Lerp(horizontalVelocity.z, 0, 10f * Time.fixedDeltaTime)
-            );
-        }
-        //Vector3 targetVelocity =
-        //    moveDirection.normalized * moveSpeed * inputStrength;
+    //        // 面向移动方向
+    //        if (autoRotateToMoveDirection)
+    //        {
+    //            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+    //            rb.rotation = Quaternion.Slerp(rb.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
+    //        }
+    //    }
+    //    else
+    //    {
+    //        // 没有输入时，减速停止
+    //        Vector3 horizontalVelocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+    //        rb.velocity = new Vector3(
+    //            Mathf.Lerp(horizontalVelocity.x, 0, 10f * Time.fixedDeltaTime),
+    //            rb.velocity.y,
+    //            Mathf.Lerp(horizontalVelocity.z, 0, 10f * Time.fixedDeltaTime)
+    //        );
+    //    }
+    //    //Vector3 targetVelocity =
+    //    //    moveDirection.normalized * moveSpeed * inputStrength;
 
-        //Vector3 velocityChange = targetVelocity - rb.velocity;
-        //velocityChange.y = 0;
+    //    //Vector3 velocityChange = targetVelocity - rb.velocity;
+    //    //velocityChange.y = 0;
 
-        //float acceleration = 18f;
+    //    //float acceleration = 18f;
 
-        //rb.AddForce(velocityChange * acceleration, ForceMode.Acceleration);
-    }
+    //    //rb.AddForce(velocityChange * acceleration, ForceMode.Acceleration);
+    //}
 
     // 开火按钮点击处理方法
     private void OnFireButtonClick()

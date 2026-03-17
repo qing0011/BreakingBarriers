@@ -17,8 +17,10 @@ public class FailPanel : BasePanel
         btnBack.onClick.RemoveAllListeners();
         btnBack.onClick.AddListener(() =>
         {
-            GameDataMgr.Instance.TryRefreshMaxScore(currentScore);
-            GameDataMgr.Instance.TryRefreshTotalScoreData();
+            //GameDataMgr.Instance.TryRefreshMaxScore(currentScore);
+            // GameDataMgr.Instance.TryRefreshTotalScoreData();
+            // 确保最高分被正确更新
+            //GameDataMgr.Instance.UpdateMaxScoreFromTotal();
             //取消暂停
             Time.timeScale = 1f;
 
@@ -44,7 +46,8 @@ public class FailPanel : BasePanel
                 //提示积分不足
                 Debug.Log("积分不足，无法继续");
                 StartCoroutine(ShowTipForSeconds(2f));
-                 UIManager.Instance.ShowPanel<TipPanel>();
+                UIManager.Instance.ShowPanel<TipPanel>();
+
             }
            
         });

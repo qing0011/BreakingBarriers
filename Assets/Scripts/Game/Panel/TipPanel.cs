@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -7,19 +8,21 @@ using UnityEngine.UI;
 public class TipPanel : BasePanel
 {
     public Button btnClose;
-    
+    public TMP_Text txtInfo;
 
     public override void Init()
     {
         btnClose.onClick.RemoveAllListeners();
         btnClose.onClick.AddListener(() =>
         {
-           
+
             GameDataMgr.Instance.ResetGameData();
             UIManager.Instance.HidePanel<TipPanel>();
             Time.timeScale = 0.1f;
 
-           // SceneManager.LoadScene("BeginScene");
+            // SceneManager.LoadScene("BeginScene");
         });
     }
+    //设置为广告复活
+   
 }

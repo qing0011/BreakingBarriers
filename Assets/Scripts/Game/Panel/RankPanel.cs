@@ -9,119 +9,234 @@ public class RankPanel : BasePanel
 {
     public Button btnClose;
 
-    //关联对象（较多对象需要列表用代码查找
-    //因为控件较多 拖的话 工作量太大了 我们直接偷懒 通过代码找
-    
     private List<TMP_Text> labName = new List<TMP_Text>();
     private List<TMP_Text> labScore = new List<TMP_Text>();
     private List<TMP_Text> labTime = new List<TMP_Text>();
-    /// <summary>
-    /// /////////////////////////////////////////
-    /// </summary>
-    public Button btnClear;//轻触按键
 
+    // 添加一个标志，表示UI组件是否初始化成功
+    private bool isUIAvailable = false;
 
     public override void Init()
     {
-        //用/可以找到物体在场景中分组里面的分组路径
-        //通过transform.Find找到子对象
-
-        ///一定要注意i的初始值是多少。。。这里是1.。。报错的问题是我写了0
-        for (int i = 1; i <= 10; i++)
+        try
         {
+            // 清空列表，防止重复添加
+            labName.Clear();
+            labScore.Clear();
+            labTime.Clear();
 
+            // 查找UI组件并验证
+            bool allFound = true;
 
-            //labPM.Add(this.transform.Find("PM/labPM" + i).GetComponent<CustomGUILabel>());
-            labName.Add(this.transform.Find("Name/labName" + i).GetComponent<TMP_Text>());
-            labScore.Add(this.transform.Find("Score/labScore" + i).GetComponent<TMP_Text>());
-            labTime.Add(this.transform.Find("Time/labTime" + i).GetComponent<TMP_Text>());
+            for (int i = 1; i <= 10; i++)
+            {
+                // 查找Name文本
+                Transform nameTrans = this.transform.Find("Name/labName" + i);
+                if (nameTrans != null)
+                {
+                    TMP_Text nameText = nameTrans.GetComponent<TMP_Text>();
+                    if (nameText != null)
+                    {
+                        labName.Add(nameText);
+                    }
+                    else
+                    {
+                        Debug.LogError($"找不到 Name/labName{i} 的 TMP_Text 组件");
+                        allFound = false;
+                    }
+                }
+                else
+                {
+                    Debug.LogError($"找不到 Name/labName{i} 对象");
+                    allFound = false;
+                }
 
+                // 查找Score文本
+                Transform scoreTrans = this.transform.Find("Score/labScore" + i);
+                if (scoreTrans != null)
+                {
+                    TMP_Text scoreText = scoreTrans.GetComponent<TMP_Text>();
+                    if (scoreText != null)
+                    {
+                        labScore.Add(scoreText);
+                    }
+                    else
+                    {
+                        Debug.LogError($"找不到 Score/labScore{i} 的 TMP_Text 组件");
+                        allFound = false;
+                    }
+                }
+                else
+                {
+                    Debug.LogError($"找不到 Score/labScore{i} 对象");
+                    allFound = false;
+                }
+
+                // 查找Time文本
+                Transform timeTrans = this.transform.Find("Time/labTime" + i);
+                if (timeTrans != null)
+                {
+                    TMP_Text timeText = timeTrans.GetComponent<TMP_Text>();
+                    if (timeText != null)
+                    {
+                        labTime.Add(timeText);
+                    }
+                    else
+                    {
+                        Debug.LogError($"找不到 Time/labTime{i} 的 TMP_Text 组件");
+                        allFound = false;
+                    }
+                }
+                else
+                {
+                    Debug.LogError($"找不到 Time/labTime{i} 对象");
+                    allFound = false;
+                }
+            }
+
+            isUIAvailable = allFound && labName.Count == 10 && labScore.Count == 10 && labTime.Count == 10;
+
+            if (!isUIAvailable)
+            {
+                Debug.LogError("排行榜UI初始化失败，请检查场景中的对象命名和层级");
+            }
+
+            // 关闭按钮事件
+            btnClose.onClick.RemoveAllListeners();
+            btnClose.onClick.AddListener(() =>
+            {
+                UIManager.Instance.HidePanel<RankPanel>();
+            });
+
+            // 不要在Init中隐藏面板
+            // UIManager.Instance.HidePanel<RankPanel>();
         }
-
-        //关闭按钮事件
-        btnClose.onClick.RemoveAllListeners();
-        btnClose.onClick.AddListener(() =>
+        catch (System.Exception e)
         {
-            UIManager.Instance.HidePanel<RankPanel>();
-            //开启开始面板
-            // UIManager.Instance.ShowPanel<BeginPanel>();
-        });
-       
-        //////////////////////////////////////////////////////////////////////
-        //清空按钮
-        btnClear.onClick.RemoveAllListeners();
-        btnClear.onClick.AddListener(() =>
-        {
-            GameDataMgr.Instance.rankData.list.Clear();
-            //GameDataMgr.Instance.Save();
-            // 更新UI
-            UpdatePanelInfo();
-        });
-       
-        ////////////////////////////////////////////////////////
-        UIManager.Instance.HidePanel<RankPanel>();
+            Debug.LogError($"RankPanel初始化异常: {e.Message}");
+            isUIAvailable = false;
+        }
     }
-  
 
     public override void ShowMe()
     {
         base.ShowMe();
-      
+
+        // 检查UI是否可用
+        if (!isUIAvailable)
+        {
+            Debug.LogError("UI组件未就绪，无法显示排行榜");
+            // 可以选择显示错误提示或自动关闭
+            StartCoroutine(ShowErrorAndClose());
+            return;
+        }
 
         UpdatePanelInfo();
     }
-    public void UpdatePanelInfo()
+
+    private IEnumerator ShowErrorAndClose()
     {
+        // 等待一帧让UI显示
+        yield return null;
 
+        // 显示错误提示（如果你有提示面板的话）
+        // UIManager.Instance.ShowPanel<MessagePanel>("排行榜加载失败");
 
-        //根据排行榜信息更新面板
-        //读取GameMgr里面的排行榜列表，更新面板
-        //RankInfo里面必须声明这个列表。
-        List<RankInfo> list = GameDataMgr.Instance.rankData.list;
-
-        /////////////////////////////////////////////////////////////////
-        // 取排行榜数量和UI数量的最小值
-        int count = Mathf.Min(list.Count, labName.Count);
-        ////////////////////////////////////////////////////////////////////////
-        //Debug.Log("刷新排行榜, 当前列表长度: " + list.Count);
-        for (int i = 0; i < list.Count ; i++)
-        {
-            //名字
-            labName[i].text = list[i].name;
-            //分数
-            labScore[i].text = list[i].score.ToString();
-            //时间 存储的时间单位是s
-            //把秒数 转换成 时  分 秒
-            int time = (int)list[i].time;
-            labTime[i].text = "";
-            //得到 几个小时
-            // 8432s  60*60 = 3600
-            //8432 / 3600 ≈ 2时
-            if (time / 3600 > 0)
-            {
-                labTime[i].text += time / 3600 + "时";
-            }
-            //8432-7200 余 1232s
-            // 1232s / 60 ≈ 20分  
-            if (time % 3600 / 60 > 0 || labTime[i].text != "")
-            {
-                labTime[i].text += time % 3600 / 60 + "分";
-            }
-            //1232s-1200 余 32秒
-            labTime[i].text += time % 60 + "秒";
-        }
-
-        //////////////////////////////////////////////////////////////////////////
-        // 把剩余没有数据的UI清空
-        for (int i = count; i < labName.Count; i++)
-        {
-            labName[i].text = "";
-            labScore[i].text = "";
-            labTime[i].text = "";
-        }
-        //////////////////////////////////////////////////////////////////
-       
+        // 3秒后自动关闭
+        yield return new WaitForSeconds(3f);
+        UIManager.Instance.HidePanel<RankPanel>();
     }
 
-    
+    public void UpdatePanelInfo()
+    {
+        // 安全检查1：UI组件是否可用
+        if (!isUIAvailable)
+        {
+            Debug.LogError("UI组件未初始化，无法更新排行榜");
+            return;
+        }
+
+        // 安全检查2：GameDataMgr是否存在
+        if (GameDataMgr.Instance == null)
+        {
+            Debug.LogError("GameDataMgr.Instance 为空");
+            return;
+        }
+
+        // 安全检查3：rankData是否存在
+        if (GameDataMgr.Instance.rankData == null)
+        {
+            Debug.LogError("rankData 为空");
+            return;
+        }
+
+        // 安全检查4：排行榜列表是否存在
+        List<RankInfo> list = GameDataMgr.Instance.rankData.list;
+        if (list == null)
+        {
+            Debug.LogError("排行榜列表为空");
+            return;
+        }
+
+        // 先清空所有显示
+        for (int i = 0; i < labName.Count; i++)
+        {
+            if (labName[i] != null) labName[i].text = "";
+            if (labScore[i] != null) labScore[i].text = "";
+            if (labTime[i] != null) labTime[i].text = "";
+        }
+
+        // 显示排行榜数据
+        int count = Mathf.Min(list.Count, labName.Count);
+        for (int i = 0; i < count; i++)
+        {
+            try
+            {
+                // 名字
+                if (labName[i] != null)
+                    labName[i].text = list[i].name ?? "";
+
+                // 分数
+                if (labScore[i] != null)
+                    labScore[i].text = list[i].score.ToString();
+
+                // 时间
+                if (labTime[i] != null)
+                {
+                    int time = (int)list[i].time;
+                    labTime[i].text = FormatTime(time);
+                }
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"更新第{i}条排行榜数据时出错: {e.Message}");
+            }
+        }
+    }
+
+    // 格式化时间的辅助方法
+    private string FormatTime(int totalSeconds)
+    {
+        if (totalSeconds <= 0)
+            return "0秒";
+
+        List<string> parts = new List<string>();
+
+        int hours = totalSeconds / 3600;
+        if (hours > 0)
+        {
+            parts.Add(hours + "时");
+        }
+
+        int minutes = totalSeconds % 3600 / 60;
+        if (minutes > 0 || hours > 0)
+        {
+            parts.Add(minutes + "分");
+        }
+
+        int seconds = totalSeconds % 60;
+        parts.Add(seconds + "秒");
+
+        return string.Join("", parts);
+    }
 }

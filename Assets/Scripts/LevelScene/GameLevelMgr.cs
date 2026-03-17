@@ -90,10 +90,10 @@ public class GameLevelMgr : MonoBehaviour
         // 设置当前关卡ID
         currentLevelId = data.id;
         // 第一关时清空积分
-        if (levelId == 1)
-        {
+        //if (levelId == 1)
+        
             CurrentScore = 0;
-        }
+        
         ////每关开始都重置玩家血量
         //if (GameDataMgr.Instance.playerData != null)
         //{
@@ -122,7 +122,7 @@ public class GameLevelMgr : MonoBehaviour
         // 初始化UI显示
         panel.SetTime(remainTime);
         panel.SetScore(CurrentScore);
-        // 🔥 关键修改：延迟一帧更新血量UI
+        // 延迟一帧更新血量UI
         StartCoroutine(DelayedUpdateHP(panel));
         // 启动计时协程
         if (timeCoroutine != null)
@@ -197,7 +197,19 @@ public class GameLevelMgr : MonoBehaviour
         }
       
         // 显示失败面板
-        UIManager.Instance.ShowPanel<FailPanel>();
+       // UIManager.Instance.ShowPanel<FailPanel>();
+        if (UIManager.Instance.ShowPanel<FailPanel>())
+        {
+            // 暂停游戏时间
+            Time.timeScale = 0f;
+            return;
+        }
+        else
+        {
+            UIManager.Instance.ShowPanel<FailPanel>();
+            // 暂停游戏时间
+            Time.timeScale = 0f;
+        }
     }
 
     // 关卡完成处理
@@ -257,7 +269,7 @@ public class GameLevelMgr : MonoBehaviour
     }
    
 
-    // 下一场景加载完成回调（当前未使用）
+    // 下一场景加载完成回调
     private void OnNextSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         SceneManager.sceneLoaded -= OnNextSceneLoaded;

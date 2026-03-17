@@ -18,7 +18,11 @@ public class LevelCompletePanel : BasePanel
         {
             // 刷新最高分
             GameDataMgr.Instance.TryRefreshMaxScore(GameDataMgr.Instance.labScore);
+            GameDataMgr.Instance.TryRefreshTotalScoreData();
+            // 确保最高分被正确更新
+            //GameDataMgr.Instance.UpdateMaxScoreFromTotal();
             GameLevelMgr.Instance.ContinueNextLevel();
+         
             UIManager.Instance.HidePanel<LevelCompletePanel>();
            
         });
