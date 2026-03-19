@@ -32,11 +32,11 @@ public class SignInPanel : BasePanel
     // 测试时临时跳过"按周重置"逻辑的标志
     private bool _ignoreWeekResetForTest = false;
 
-    [Header("测试用")]
-    // 清除重置按钮（测试用）
-    public Button _TestClearBtn;
-    // 模拟下一天按钮（测试用）
-    public Button _TestNextDayBtn;
+    //[Header("测试用")]
+    //// 清除重置按钮（测试用）
+    //public Button _TestClearBtn;
+    //// 模拟下一天按钮（测试用）
+    //public Button _TestNextDayBtn;
 
 
 
@@ -55,19 +55,19 @@ public class SignInPanel : BasePanel
         });
         //模拟按钮
 
-        // 设置测试按钮（仅在编辑器或测试时使用）
-        if (_TestClearBtn != null)
-        {
-            _TestClearBtn.gameObject.SetActive(true);
-            _TestClearBtn.onClick.AddListener(ClearSignInForTest);
-        }
+        //// 设置测试按钮（仅在编辑器或测试时使用）
+        //if (_TestClearBtn != null)
+        //{
+        //    _TestClearBtn.gameObject.SetActive(true);
+        //    _TestClearBtn.onClick.AddListener(ClearSignInForTest);
+        //}
 
-        if (_TestNextDayBtn != null)
-        {
-            _TestNextDayBtn.gameObject.SetActive(true);
-            _TestNextDayBtn.onClick.RemoveAllListeners();
-            _TestNextDayBtn.onClick.AddListener(SimulateNextDay);
-        }
+        //if (_TestNextDayBtn != null)
+        //{
+        //    _TestNextDayBtn.gameObject.SetActive(true);
+        //    _TestNextDayBtn.onClick.RemoveAllListeners();
+        //    _TestNextDayBtn.onClick.AddListener(SimulateNextDay);
+        //}
 
 
     }
